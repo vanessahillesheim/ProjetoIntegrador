@@ -69,7 +69,7 @@ Contribuições são bem-vindas! Para contribuir com o projeto:
 5. Abra um pull request no GitHub.
 
 ## Licença
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
+Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENÇA para mais detalhes.
 
 
 
