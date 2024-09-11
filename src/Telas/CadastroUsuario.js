@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableHighlight } from "react-native";
 import { estilos } from "../styleSheet/estilos";
 import CxTxTUser from "./CxTxTUser";
 import { useNavigation} from "@react-navigation/native";
+import { insertUsuario } from "../controller/insertUsuario";
 
 function CadastroUsuario() {
 
@@ -30,7 +31,6 @@ function CadastroUsuario() {
         );
     }
 
-    
 
     function cadastroSucesso(){
         nav.navigate('CadastroSucesso')
@@ -62,7 +62,7 @@ function CadastroUsuario() {
 
                 <View style={estilos.rodapeCadastro}>
                 <TouchableHighlight style={estilos.rodapeBotao}
-                    onPress={() => cadastroSucesso()}
+                    onPress={() => insertUsuario()}
 
                 >
                     <Text style={{ color: 'white', fontWeight: "bold" }}>Entrar</Text>
