@@ -45,11 +45,11 @@ Copie os arquivos package.json e package-lock.json e cole na raiz do projeto.
 
 5. **Instale as Dependências**:
 Execute o seguinte comando para instalar todas as dependências listadas nos arquivos do item 3.
-npm install
+``npm install
 
 6. **Inicie o servidor**:
 Para iniciar o servidor e começar a desenvolver, execute:
-npm start
+```npm start
 
 ## Uso
 
