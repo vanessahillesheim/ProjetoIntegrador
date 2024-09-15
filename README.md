@@ -44,12 +44,12 @@ cd RunTracking
 - Copie os arquivos package.json e package-lock.json e cole na raiz do projeto.
 
 4. **Instale as Dependências**:
-- Execute o seguinte comando para instalar todas as dependências listadas nos arquivos do item 3.
-```bash
+- Execute o seguinte comando para instalar todas as dependências listas nos arquivos do package:
+   ```bash
    npm install
 
-5. **Inicie o servidor**:
-- Para iniciar o servidor e começar a desenvolver, execute:
+5. **Inicie o Servidor**:
+- Inicie o servidor e comece a desencolver, executando o comando:
 ```bash
    npm start
 
