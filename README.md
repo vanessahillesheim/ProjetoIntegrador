@@ -38,18 +38,21 @@ Para instalar e rodar o RunTracking localmente, siga estas etapas:
    git clone https://github.com/usuario/RunTracking.git
 
 2. **Navegue para o Diretório do Projeto**:
+```bash
 cd RunTracking
 
-3. **Copie arquivos de instalação**:
+4. **Copie arquivos de instalação**:
 - Copie os arquivos package.json e package-lock.json e cole na raiz do projeto.
 
 4. **Instale as Dependências**:
 - Execute o seguinte comando para instalar todas as dependências listadas nos arquivos do item 3.
-   ```npm install
+```bash
+npm install
 
 5. **Inicie o servidor**:
 - Para iniciar o servidor e começar a desenvolver, execute:
-   ```npm start
+```bash
+npm start
 
 ## Uso
 
