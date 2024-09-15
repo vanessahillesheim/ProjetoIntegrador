@@ -40,10 +40,15 @@ Para instalar e rodar o RunTracking localmente, siga estas etapas:
 2. **Navegue para o Diretório do Projeto**:
 cd RunTracking
 
-3. **Instale as Dependências**:
+3. **Copie arquivos de instalação**:
+Copie os arquivos package.json e package-lock.json e cole na raiz do projeto.
+
+5. **Instale as Dependências**:
+Execute o seguinte comando para instalar todas as dependências listadas nos arquivos do item 3.
 npm install
 
-4. **Inicie o servidor**:
+6. **Inicie o servidor**:
+Para iniciar o servidor e começar a desenvolver, execute:
 npm start
 
 ## Uso
