@@ -29,30 +29,6 @@ O RunTracking foi criado para corredores amadores que desejam acompanhar suas co
 - **Visualização da Agenda**: Verifique as corridas agendadas e ative a notificação de "retirada de kit".
 - **Interface Intuitiva**: Navegação fácil com um design amigável.
 
-## Instalação
-
-Para instalar e rodar o RunTracking localmente, siga estas etapas:
-
-1. **Clone o Repositório**:
-   ```bash
-   git clone https://github.com/usuario/RunTracking.git
-
-2. **Navegue para o Diretório do Projeto**:
-cd RunTracking
-
-3. **Copie arquivos de instalação**:
-- Copie os arquivos package.json e package-lock.json e cole na raiz do projeto.
-
-4. **Instale as Dependências**:
-- Execute o seguinte comando para instalar todas as dependências listas nos arquivos do package:
-   ```bash
-   npm install
-
-5. **Inicie o Servidor**:
-- Inicie o servidor e comece a desencolver, executando o comando:
-```bash
-   npm start
-
 ## Uso
 
 Após a instalação, você pode usar o aplicativo para:
@@ -77,6 +53,30 @@ Contribuições são bem-vindas! Para contribuir com o projeto:
 
 ## Licença
 Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
+
+## Instalação
+
+Para instalar e rodar o RunTracking localmente, siga estas etapas:
+
+1. **Clone o Repositório**:
+   ```bash
+   git clone https://github.com/usuario/RunTracking.git
+
+2. **Navegue para o Diretório do Projeto**:
+cd RunTracking
+
+3. **Copie arquivos de instalação**:
+- Copie os arquivos package.json e package-lock.json e cole na raiz do projeto.
+
+4. **Instale as Dependências**:
+- Execute o seguinte comando para instalar todas as dependências listas nos arquivos do package:
+   ```bash
+   npm install
+
+5. **Inicie o Servidor**:
+- Inicie o servidor e comece a desencolver, executando o comando:
+```bash
+   npm start
 
 
 
