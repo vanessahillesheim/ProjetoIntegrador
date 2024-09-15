@@ -1,40 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import { estilos } from "../styleSheet/estilos";
 import CxTxTCorrida from "./CxTxTCorrida";
 import { useNavigation } from "@react-navigation/native";
+import { collection, addDoc } from "firebase/firestore";
+import database from "../database/firebaseconexao"; // Importa a configuração do Firebase
 
 function CadastroCorrida() {
+    const [nomeEvento, setNomeEvento] = useState("");
+    const [data, setData] = useState("");
+    const [distancia, setDistancia] = useState("");
+    const [local, setLocal] = useState("");
+    const [horario, setHorario] = useState("");
+    const [valor, setValor] = useState("");
+
     const nav = useNavigation();
     let fundoCabecalho = require("../img/cabecalho.png");
 
-    let arraypHol = ['Nome do evento:', 'Data:', 'Distância a percorrer (km);', 'Local da largada:', 'Horário da largada:', 'Valor da Inscrição em R$:'];
-    let arrayaCap = ['characters', 'none', 'none', 'none', 'none', 'none'];
-    let arraycMax = ['50', '11', '2', '30', '5', '10'];
-    let arraykTyp = ['default', 'number-date', 'number-pad', 'email-address', 'phone-pad', 'default'];
-    let arrayEdit = ['true', 'true', 'true', 'true', 'true', 'true'];
-    let arraysegT = ['false', 'false', 'false', 'false', 'false', 'false'];
-    let arraymLin = ['false', 'false', 'false', 'false', 'false', 'false'];
-    let campos = [];
-
-    for (let i = 0; i < arraypHol.length; i++) {
-        campos.push(
-            <CxTxTCorrida
-                key={i}
-                pHol={arraypHol[i]}
-                aCap={arrayaCap[i]}
-                cMax={arraycMax[i]}
-                kTyp={arraykTyp[i]}
-                edit={arrayEdit[i]}
-                segT={arraysegT[i]}
-                mLin={arraymLin[i]}
-            />
-        );
-    }
-
-    function cadastroSucesso() {
-        nav.navigate('CadastroSucesso');
-    }
+    const handleAddCorrida = async () => {
+        try {
+            await addDoc(collection(database, "corridas"), {
+                nomeEvento,
+                data,
+                distancia,
+                local,
+                horario,
+                valor,
+            });
+            nav.navigate('CadastroSucessoCorrida');
+        } catch (e) {
+            console.error("Erro ao adicionar documento: ", e);
+        }
+    };
 
     return (
         <View style={estilos.fundo}>
@@ -45,16 +42,59 @@ function CadastroCorrida() {
             </View>
             <View style={estilos.corpoCadastro}>
                 <Text style={estilos.titulo}>Cadastre a nova corrida:</Text>
-                {campos}
+                <CxTxTCorrida
+                    pHol="Nome do evento:"
+                    aCap="characters"
+                    cMax="50"
+                    kTyp="default"
+                    edit="true"
+                    onChangeText={setNomeEvento}
+                />
+                <CxTxTCorrida
+                    pHol="Data:"
+                    aCap="none"
+                    cMax="11"
+                    kTyp="number-date"
+                    edit="true"
+                    onChangeText={setData}
+                />
+                <CxTxTCorrida
+                    pHol="Distância a percorrer (km):"
+                    aCap="none"
+                    cMax="2"
+                    kTyp="number-pad"
+                    edit="true"
+                    onChangeText={setDistancia}
+                />
+                <CxTxTCorrida
+                    pHol="Local da largada:"
+                    aCap="none"
+                    cMax="30"
+                    kTyp="default"
+                    edit="true"
+                    onChangeText={setLocal}
+                />
+                <CxTxTCorrida
+                    pHol="Horário da largada:"
+                    aCap="none"
+                    cMax="5"
+                    kTyp="default"
+                    edit="true"
+                    onChangeText={setHorario}
+                />
+                <CxTxTCorrida
+                    pHol="Valor da Inscrição em R$:"
+                    aCap="none"
+                    cMax="10"
+                    kTyp="default"
+                    edit="true"
+                    onChangeText={setValor}
+                />
             </View>
-           
-           
-           
-           
-            <View style={estilos.rodapeCadastro}> 
+            <View style={estilos.rodapeCadastro}>
                 <TouchableHighlight
                     style={estilos.rodapeBotao}
-                    onPress={() => cadastroSucesso()}
+                    onPress={handleAddCorrida}
                 >
                     <Text style={{ color: 'white', fontWeight: "bold" }}>Adicionar</Text>
                 </TouchableHighlight>
