@@ -51,7 +51,7 @@ cd RunTracking
 5. **Inicie o servidor**:
 - Para iniciar o servidor e começar a desenvolver, execute:
 ```bash
-   npm star
+   npm start
 
 ## Uso
 
