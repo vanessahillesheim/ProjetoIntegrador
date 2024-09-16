@@ -9,8 +9,8 @@ function Menu() {
 
     const nav = useNavigation();
 
-    function lista(){
-        nav.navigate('ListaCorridas')
+    function calendario(){
+        nav.navigate('Calendario')
     }
     function novacorrida(){
         nav.navigate('CadastroCorrida')
@@ -44,12 +44,7 @@ function Menu() {
                     <Text style={{ color: 'white', fontWeight: "bold" }}>Nova Corrida</Text>
                 </TouchableHighlight>
               
-                <TouchableHighlight style={estilos.rodapeBotao}
-                    onPress={() => lista()}
-
-                >
-                    <Text style={{ color: 'white', fontWeight: "bold" }}>Todas Corridas</Text>
-                </TouchableHighlight>
+               
             
                 <TouchableHighlight style={estilos.rodapeBotao}
                     onPress={() => status()}
@@ -70,6 +65,13 @@ function Menu() {
 
                 >
                     <Text style={{ color: 'white', fontWeight: "bold" }}>Dia ou noite?</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={estilos.rodapeBotao}
+                    onPress={() => calendario()}
+
+                >
+                    <Text style={{ color: 'white', fontWeight: "bold" }}>Calendário</Text>
                 </TouchableHighlight>
                         
             </View>

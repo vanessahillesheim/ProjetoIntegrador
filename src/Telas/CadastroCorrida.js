@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableHighlight } from "react-native";
+import { View, Text, Image, TouchableHighlight, TouchableOpacity, Modal } from "react-native";
+import { Calendar } from 'react-native-calendars'; // Importa o componente Calendar
 import { estilos } from "../styleSheet/estilos";
 import CxTxTCorrida from "./CxTxTCorrida";
 import { useNavigation } from "@react-navigation/native";
@@ -8,12 +9,13 @@ import database from "../database/firebaseconexao"; // Importa a configuração 
 
 function CadastroCorrida() {
     const [nomeEvento, setNomeEvento] = useState("");
-    const [data, setData] = useState("");
+    const [data, setData] = useState(""); // Estado para a data selecionada
     const [distancia, setDistancia] = useState("");
     const [local, setLocal] = useState("");
     const [horario, setHorario] = useState("");
     const [valor, setValor] = useState("");
 
+    const [showCalendar, setShowCalendar] = useState(false); // Estado para controlar a exibição do calendário
     const nav = useNavigation();
     let fundoCabecalho = require("../img/cabecalho.png");
 
@@ -21,7 +23,7 @@ function CadastroCorrida() {
         try {
             await addDoc(collection(database, "corridas"), {
                 nomeEvento,
-                data,
+                data, // A data selecionada será armazenada no formato yyyy-mm-dd
                 distancia,
                 local,
                 horario,
@@ -31,6 +33,12 @@ function CadastroCorrida() {
         } catch (e) {
             console.error("Erro ao adicionar documento: ", e);
         }
+    };
+
+    // Função para lidar com a seleção de data no calendário
+    const onDayPress = (day) => {
+        setData(day.dateString); // Armazena a data selecionada (formato yyyy-mm-dd)
+        setShowCalendar(false); // Fecha o modal após a seleção
     };
 
     return (
@@ -50,14 +58,39 @@ function CadastroCorrida() {
                     edit="true"
                     onChangeText={setNomeEvento}
                 />
-                <CxTxTCorrida
-                    pHol="Data:"
-                    aCap="none"
-                    cMax="11"
-                    kTyp="number-date"
-                    edit="true"
-                    onChangeText={setData}
-                />
+
+                {/* Campo de data */}
+                <TouchableOpacity
+                    onPress={() => setShowCalendar(true)}
+                    activeOpacity={1} // Define uma opacidade fixa, evitando qualquer alteração visual ao pressionar ou passar o mouse
+                >
+                    <View >
+                        <Text style={estilos.entrada_texto}>{data ? `Data Selecionada: ${data}` : "Selecione a data:"}</Text>
+                    </View>
+                </TouchableOpacity>
+
+                {/* Exibe o Modal com o calendário */}
+                <Modal
+                    transparent={true}
+                    visible={showCalendar}
+                    animationType="slide"
+                    onRequestClose={() => setShowCalendar(false)} // Fecha o modal se o usuário pressionar o botão voltar
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                        <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20 }}>
+                            <Calendar
+                                onDayPress={onDayPress} // Chama a função ao pressionar um dia
+                                markedDates={{
+                                    [data]: { selected: true, selectedColor: 'blue' } // Marca a data selecionada
+                                }}
+                            />
+                            <TouchableOpacity onPress={() => setShowCalendar(false)}>
+                                <Text style={{ marginTop: 10, color: 'blue', textAlign: 'center' }}>Fechar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
                 <CxTxTCorrida
                     pHol="Distância a percorrer (km):"
                     aCap="none"

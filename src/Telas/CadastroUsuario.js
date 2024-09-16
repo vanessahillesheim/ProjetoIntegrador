@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableHighlight } from "react-native";
+import { View, Text, Image, TouchableHighlight, TouchableOpacity } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome5'; // Importe o ícone
 import { estilos } from "../styleSheet/estilos";
 import CxTxTUser from "./CxTxTUser";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +17,7 @@ function CadastroUsuario() {
     const [email, setEmail] = useState('');
     const [celular, setCelular] = useState('');
     const [senha, setSenha] = useState('');
+    const [foto, setFoto] = useState(null); // Estado para armazenar a foto
 
     const arraypHol = ['Digite o seu nome', 'qual a sua idade', 'CPF:999.999.999-00', 'Digite seu e-mail', 'Digite seu número de celular', 'Digite sua senha'];
     const arrayaCap = ['characters', 'none', 'none', 'none', 'none', 'none'];
@@ -55,13 +57,20 @@ function CadastroUsuario() {
                 cpf: cpf,
                 email: email,
                 celular: celular,
-                senha: senha
+                senha: senha,
+                foto: foto // Adicione a URL da foto no banco de dados
             });
             nav.navigate('CadastroSucessoUser');
         } catch (error) {
             console.error("Erro ao adicionar documento: ", error);
         }
     }
+
+    // Função para abrir a galeria ou câmera
+    const abrirGaleriaOuCamera = () => {
+        // Implemente aqui a lógica para abrir a galeria ou câmera
+        // Você pode usar bibliotecas como react-native-image-picker para isso
+    };
 
     return (
         <View style={estilos.fundo}>
@@ -73,6 +82,10 @@ function CadastroUsuario() {
             <View style={estilos.corpoCadastro}>
                 <Text style={estilos.titulo}>Preencha seu cadastro:</Text>
                 {campos}
+                <TouchableOpacity onPress={abrirGaleriaOuCamera} style={estilos.cameraIcon}>
+                    <Icon name="camera" size={30} color="#000" />
+                    <Text>Adicionar Foto</Text>
+                </TouchableOpacity>
             </View>
             <View style={estilos.rodapeCadastro}>
                 <TouchableHighlight style={estilos.rodapeBotao}
