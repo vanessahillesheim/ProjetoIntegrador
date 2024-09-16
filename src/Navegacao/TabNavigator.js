@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Menu from '../Telas/Menu';
 import ListaCorridas from '../Telas/ListaCorridas';
-import StatusCorrida from '../Telas/StatusCorrida';
+import Calendario from '../Telas/Calendario';
 import DetalhesCorridas from '../Telas/DetalhesCorridas';
 import DiaNoite from '../Telas/DiaNoite';
 
@@ -36,8 +36,8 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="StatusCorrida"
-        component={StatusCorrida}
+        name="Calendario"
+        component={Calendario}
         options={{
           tabBarIcon: () => <Icon name='info-circle' size={20} color={'#0038a8'} />,
           headerShown: false

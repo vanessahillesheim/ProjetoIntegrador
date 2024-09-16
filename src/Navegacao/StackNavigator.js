@@ -15,7 +15,7 @@ function StackNavigator() {
     <Stack.Navigator initialRouteName="Tela1">
       {/* Telas relacionadas ao login e cadastro */}
       <Stack.Screen name="Tela1" component={Tela1} options={{ headerShown: false }} />
-      <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{ headerShown: false }} />
+      <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{ headerShown: true }} />
       <Stack.Screen name="CadastroSucessoUser" component={CadastroSucessoUser} options={{ headerShown: false }} />
       
       {/* O DrawerNavigator será exibido após o login/cadastro bem-sucedido */}
