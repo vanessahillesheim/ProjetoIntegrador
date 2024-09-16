@@ -147,7 +147,50 @@ voltar:{width: 50, height: 50, alignItems: 'center', borderRadius: 25},
         height: 2, backgroundColor: '#12B1F5', marginTop: 4
     },
     
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)', // Fundo escurecido ao redor da modal
+      },
+      modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+      },
+      modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+      },
+      modalCorrida: {
+        fontSize: 24, // Tamanho maior para o nome do evento
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'center',
+        marginBottom: 20,
+      },
+      modalClose: {
+        color: 'blue',
+        fontSize: 18,
+        marginTop: 10,}, 
+        // Adicione estas linhas no seu arquivo estilos.js
+        cameraIcon: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 10,
+            marginTop: 20, // Ajuste o valor conforme necessário
+        },
+        
+        
+imagemSelecionada: {
+    width: 100,
+    height: 100,
+    marginTop: 20,
+    resizeMode: 'cover',
+  },
 
-
-});
+    
+    });
 export { estilos };
