@@ -36,11 +36,11 @@ cd RunTracking
 3. **Instale as Dependências**:
 Execute o seguinte comando para instalar todas as dependências listadas no arquivo package.json:
    ```bash
-npm install
+   npm install
 
 4. **Inicie o servidor e comece a desenvolver, executando o comando**:
    ```bash
-npm start
+   npm start
    
 ## Funcionalidades
 
@@ -99,3 +99,7 @@ Para configurar o Firebase em seu projeto, siga estas etapas:
    const database = getFirestore(app);
 
    export default database;
+
+## **Licença**
+Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
+
