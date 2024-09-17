@@ -21,6 +21,27 @@ O RunTracking foi criado para corredores amadores que desejam acompanhar suas co
 - **Visualizar estatísticas e detalhes das corridas**
 - **Acompanhar corridas passadas e futuras**
 
+## Instalação
+
+Para instalar e rodar o RunTracking localmente, siga estas etapas:
+
+1. **Clone o Repositório**:
+   ```bash
+   git clone https://github.com/usuario/RunTracking.git
+
+2. **Navegue para o Diretório do Projeto**:
+   ```bash
+cd RunTracking
+
+3. **Instale as Dependências**:
+Execute o seguinte comando para instalar todas as dependências listadas no arquivo package.json:
+   ```bash
+npm install
+
+4. **Inicie o servidor e comece a desenvolver, executando o comando**:
+   ```bash
+npm start
+   
 ## Funcionalidades
 
 - **Cadastro de Usuários**: Permite o registro de novos corredores e a manutenção de seus perfis.
