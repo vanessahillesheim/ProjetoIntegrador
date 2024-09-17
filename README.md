@@ -104,10 +104,10 @@ Para configurar o Firebase em seu projeto, siga estas etapas:
 Contribuições são bem-vindas! Para contribuir com o projeto, por favor siga os seguintes passos:
 
 Fork o repositório.
-- **Crie uma branch para a sua feature (git checkout -b minha-feature).**
-- **Faça as alterações e commit (git commit -am 'Adiciona nova feature').**
-- **Push para a branch (git push origin minha-feature).**
-- **Abra um Pull Request.**
+- Crie uma branch para a sua feature (git checkout -b minha-feature).
+- Faça as alterações e commit (git commit -am 'Adiciona nova feature').
+- Push para a branch (git push origin minha-feature).
+- Abra um Pull Request.
 
 ## **Licença**
 Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
