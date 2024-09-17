@@ -78,5 +78,39 @@ cd RunTracking
 ```bash
    npm start
 
+6. **Configuração do Firebase**:
+ara configurar o Firebase em seu projeto, siga estas etapas:
 
+6.1 Crie um Projeto no Firebase:
 
+Acesse o Console do Firebase.
+Clique em "Adicionar projeto" e siga as instruções para criar um novo projeto Firebase.
+6.2 Adicione um App ao Projeto:
+
+No painel do Firebase, clique no ícone de "Adicionar app" para adicionar um aplicativo Android ou iOS.
+Siga as instruções fornecidas para registrar o seu aplicativo e obter as credenciais necessárias.
+6.3 Configure o Firestore e Obtenha as Credenciais:
+
+No console do Firebase, configure o Firestore se ainda não estiver configurado.
+Copie as credenciais do seu projeto.
+6.4 Atualize o Arquivo de Configuração do Firebase:
+
+Crie ou atualize o arquivo src/config/firebaseconfig.js com as suas credenciais do Firebase. O arquivo deve se parecer com o seguinte:
+```bash
+// src/config/firebaseconfig.js
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_AUTH_DOMAIN",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_STORAGE_BUCKET",
+  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+  appId: "SEU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getFirestore(app);
+
+export default database;
