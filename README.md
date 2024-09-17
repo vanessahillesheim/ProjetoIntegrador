@@ -1,8 +1,6 @@
 # RunTracking - Aplicativo do Corredor de Rua
 
-RunTracking é um aplicativo desenvolvido para ajudar corredores a gerenciar suas corridas, acompanhar seu progresso e manter um histórico detalhado de suas atividades. 
-O aplicativo permite o cadastro de perfis de corredores e registro de corridas, fornecendo ao corredor o histórico das corridas já concluídas (informações sobre o evento, 
-classificação, tempo do percurso) e também o acesso ao calendário para verificação das corridas futuras agendadas.
+RunTracking é um aplicativo desenvolvido para ajudar corredores a gerenciar suas corridas, acompanhar seu progresso e manter um histórico detalhado de suas atividades. O aplicativo permite o cadastro de perfis de corredores e registro de corridas, fornecendo ao corredor o histórico das corridas já concluídas (informações sobre o evento, classificação, tempo do percurso) e também o acesso ao calendário para verificação das corridas futuras agendadas.
 
 ## Índice
 
@@ -11,6 +9,7 @@ classificação, tempo do percurso) e também o acesso ao calendário para verif
 - [Instalação](#instalação)
 - [Uso](#uso)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Configuração do Firebase](#configuração-do-firebase)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 
@@ -32,85 +31,50 @@ O RunTracking foi criado para corredores amadores que desejam acompanhar suas co
 ## Uso
 
 Após a instalação, você pode usar o aplicativo para:
-- Cadastrar um novo usuário: Acesse a tela de cadastro e preencha as informações necessárias.
-- Adicionar uma corrida: Navegue até a seção de corridas e adicione os detalhes da sua atividade.
-- Visualizar a agenda: Verifique as corridas futuras e as notificações de retirada de kit.
+- **Cadastrar um novo usuário**: Acesse a tela de cadastro e preencha as informações necessárias.
+- **Adicionar uma corrida**: Navegue até a seção de corridas e adicione os detalhes da sua atividade.
+- **Visualizar a agenda**: Verifique as corridas futuras e as notificações de retirada de kit.
 
 ## Tecnologias Utilizadas
 
-- React Native: Para desenvolvimento de aplicativos móveis.
-- Node.js: Para o backend e gerenciamento de pacotes.
-- SQLite: Para armazenamento de dados locais.
+- **React Native**: Para desenvolvimento de aplicativos móveis.
+- **Node.js**: Para o backend e gerenciamento de pacotes.
+- **SQLite**: Para armazenamento de dados locais.
 
-## Contribuição
+## **Configuração do Firebase**
 
-Contribuições são bem-vindas! Para contribuir com o projeto:
-1. Faça um fork do repositório.
-2. Crie uma nova branch (git checkout -b feature/nova-funcionalidade).
-3. Faça as alterações desejadas e comite (git commit -am 'Adiciona nova funcionalidade').
-4. Envie sua branch para o repositório remoto (git push origin feature/nova-funcionalidade).
-5. Abra um pull request no GitHub.
+Para configurar o Firebase em seu projeto, siga estas etapas:
 
-## Licença
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
+1. **Crie um Projeto no Firebase**:
+   - Acesse o [Console do Firebase](https://console.firebase.google.com/).
+   - Clique em **"Adicionar projeto"** e siga as instruções para criar um novo projeto Firebase.
 
-## Instalação
+2. **Adicione um App ao Projeto**:
+   - No painel do Firebase, clique no ícone de **"Adicionar app"** para adicionar um aplicativo Android ou iOS.
+   - Siga as instruções fornecidas para registrar o seu aplicativo e obter as credenciais necessárias.
 
-Para instalar e rodar o RunTracking localmente, siga estas etapas:
+3. **Configure o Firestore e Obtenha as Credenciais**:
+   - No console do Firebase, configure o Firestore se ainda não estiver configurado.
+   - Copie as credenciais do seu projeto.
 
-1. **Clone o Repositório**:
-   ```bash
-   git clone https://github.com/usuario/RunTracking.git
+4. **Atualize o Arquivo de Configuração do Firebase**:
+   - Crie ou atualize o arquivo `src/config/firebaseconfig.js` com as suas credenciais do Firebase. O arquivo deve se parecer com o seguinte:
 
-2. **Navegue para o Diretório do Projeto**:
-cd RunTracking
+   ```javascript
+   // src/config/firebaseconfig.js
+   import { initializeApp } from "firebase/app";
+   import { getFirestore } from "firebase/firestore";
 
-3. **Copie arquivos de instalação**:
-- Copie os arquivos package.json e package-lock.json e cole na raiz do projeto.
+   const firebaseConfig = {
+     apiKey: "SUA_API_KEY",
+     authDomain: "SEU_AUTH_DOMAIN",
+     projectId: "SEU_PROJECT_ID",
+     storageBucket: "SEU_STORAGE_BUCKET",
+     messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+     appId: "SEU_APP_ID"
+   };
 
-4. **Instale as Dependências**:
-- Execute o seguinte comando para instalar todas as dependências listas nos arquivos do package:
-   ```bash
-   npm install
+   const app = initializeApp(firebaseConfig);
+   const database = getFirestore(app);
 
-5. **Inicie o Servidor**:
-- Inicie o servidor e comece a desencolver, executando o comando:
-```bash
-   npm start
-
-6. **Configuração do Firebase**:
-ara configurar o Firebase em seu projeto, siga estas etapas:
-
-6.1 Crie um Projeto no Firebase:
-
-Acesse o Console do Firebase.
-Clique em "Adicionar projeto" e siga as instruções para criar um novo projeto Firebase.
-6.2 Adicione um App ao Projeto:
-
-No painel do Firebase, clique no ícone de "Adicionar app" para adicionar um aplicativo Android ou iOS.
-Siga as instruções fornecidas para registrar o seu aplicativo e obter as credenciais necessárias.
-6.3 Configure o Firestore e Obtenha as Credenciais:
-
-No console do Firebase, configure o Firestore se ainda não estiver configurado.
-Copie as credenciais do seu projeto.
-6.4 Atualize o Arquivo de Configuração do Firebase:
-
-Crie ou atualize o arquivo src/config/firebaseconfig.js com as suas credenciais do Firebase. O arquivo deve se parecer com o seguinte:
-```bash
-// src/config/firebaseconfig.js
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE_BUCKET",
-  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-  appId: "SEU_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const database = getFirestore(app);
-
-export default database;
+   export default database;
