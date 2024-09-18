@@ -6,13 +6,13 @@ RunTracking é um aplicativo desenvolvido para ajudar corredores a gerenciar sua
 
 - [Visão Geral](#visão-geral)
 - [Funcionalidades](#funcionalidades)
-- [Instalação](#instalação)
 - [Uso](#uso)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Configuração do Firebase](#configuração-do-firebase)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
-
+- [Instalação](#instalação)
+- [Configuração do Firebase](#configuração-do-firebase)
+- 
 ## Visão Geral
 
 O RunTracking foi criado para corredores amadores que desejam acompanhar suas corridas de forma simples e eficiente. Com o aplicativo, você pode:
@@ -20,6 +20,39 @@ O RunTracking foi criado para corredores amadores que desejam acompanhar suas co
 - **Registrar novas corridas**
 - **Visualizar estatísticas e detalhes das corridas**
 - **Acompanhar corridas passadas e futuras**
+
+  
+## Funcionalidades
+
+- **Cadastro de Usuários**: Permite o registro de novos corredores e a manutenção de seus perfis.
+- **Gerenciamento de Corridas**: Adiciona, edita e exclui corridas, com detalhes como data, distância, tempo, classificação, valor da inscrição.
+- **Visualização da Agenda**: Verifique as corridas agendadas e ative a notificação de "retirada de kit".
+- **Interface Intuitiva**: Navegação fácil com um design amigável.
+
+## Uso
+
+Após a instalação, você pode usar o aplicativo para:
+- **Cadastrar um novo usuário**: Acesse a tela de cadastro e preencha as informações necessárias.
+- **Adicionar uma corrida**: Navegue até a seção de corridas e adicione os detalhes da sua atividade.
+- **Visualizar a agenda**: Verifique as corridas futuras e as notificações de retirada de kit.
+
+## Tecnologias Utilizadas
+
+- **React Native**: Para desenvolvimento de aplicativos móveis.
+- **Node.js**: Para o backend e gerenciamento de pacotes.
+- **Firebase**: Para armazenamento de dados locais.
+
+## **Contribuição**
+Contribuições são bem-vindas! Para contribuir com o projeto, por favor siga os seguintes passos:
+
+Fork o repositório.
+- Crie uma branch para a sua feature (git checkout -b minha-feature).
+- Faça as alterações e commit (git commit -am 'Adiciona nova feature').
+- Push para a branch (git push origin minha-feature).
+- Abra um Pull Request.
+
+## **Licença**
+Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
 
 ## Instalação
 
@@ -41,26 +74,7 @@ Execute o seguinte comando para instalar todas as dependências listadas no arqu
 4. **Inicie o servidor e comece a desenvolver, executando o comando**:
    ```bash
    npm start
-   
-## Funcionalidades
 
-- **Cadastro de Usuários**: Permite o registro de novos corredores e a manutenção de seus perfis.
-- **Gerenciamento de Corridas**: Adiciona, edita e exclui corridas, com detalhes como data, distância, tempo, classificação, valor da inscrição.
-- **Visualização da Agenda**: Verifique as corridas agendadas e ative a notificação de "retirada de kit".
-- **Interface Intuitiva**: Navegação fácil com um design amigável.
-
-## Uso
-
-Após a instalação, você pode usar o aplicativo para:
-- **Cadastrar um novo usuário**: Acesse a tela de cadastro e preencha as informações necessárias.
-- **Adicionar uma corrida**: Navegue até a seção de corridas e adicione os detalhes da sua atividade.
-- **Visualizar a agenda**: Verifique as corridas futuras e as notificações de retirada de kit.
-
-## Tecnologias Utilizadas
-
-- **React Native**: Para desenvolvimento de aplicativos móveis.
-- **Node.js**: Para o backend e gerenciamento de pacotes.
-- **Firebase**: Para armazenamento de dados locais.
 
 ## **Configuração do Firebase**
 
@@ -100,15 +114,4 @@ Para configurar o Firebase em seu projeto, siga estas etapas:
 
    export default database;
 
-## **Contribuição**
-Contribuições são bem-vindas! Para contribuir com o projeto, por favor siga os seguintes passos:
-
-Fork o repositório.
-- Crie uma branch para a sua feature (git checkout -b minha-feature).
-- Faça as alterações e commit (git commit -am 'Adiciona nova feature').
-- Push para a branch (git push origin minha-feature).
-- Abra um Pull Request.
-
-## **Licença**
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
 
