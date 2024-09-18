@@ -67,7 +67,7 @@ Para instalar e rodar o RunTracking localmente, siga estas etapas:
    cd RunTracking
 
 3. **Instale as Dependências**:
-Execute o seguinte comando para instalar todas as dependências listadas no arquivo package.json:
+- Execute o seguinte comando para instalar todas as dependências listadas no arquivo package.json:
    ```bash
    npm install
 
