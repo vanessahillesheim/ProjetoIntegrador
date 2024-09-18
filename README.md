@@ -60,7 +60,7 @@ Após a instalação, você pode usar o aplicativo para:
 
 - **React Native**: Para desenvolvimento de aplicativos móveis.
 - **Node.js**: Para o backend e gerenciamento de pacotes.
-- **SQLite**: Para armazenamento de dados locais.
+- **Firebase**: Para armazenamento de dados locais.
 
 ## **Configuração do Firebase**
 
