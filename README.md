@@ -12,7 +12,7 @@ RunTracking é um aplicativo desenvolvido para ajudar corredores a gerenciar sua
 - [Licença](#licença)
 - [Instalação](#instalação)
 - [Configuração do Firebase](#configuração-do-firebase)
-- 
+  
 ## Visão Geral
 
 O RunTracking foi criado para corredores amadores que desejam acompanhar suas corridas de forma simples e eficiente. Com o aplicativo, você pode:
@@ -113,5 +113,3 @@ Para configurar o Firebase em seu projeto, siga estas etapas:
    const database = getFirestore(app);
 
    export default database;
-
-
