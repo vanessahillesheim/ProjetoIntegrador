@@ -1,3 +1,25 @@
+<<<<<<< HEAD:src/documentacao/Dependências.txt
+npm install @react-navigation/stack
+npm install @react-navigation/drawer
+npm install @react-navigation/bottom-tabs
+npm install @react-navigation/native
+npm install react-native-screens react-native-safe-area-context
+npm install @react-native-picker/picker
+npm install @react-native-community/slider
+npm install firebase
+npm install react-native-calendars
+npm install react-native-image-picker
+expo install react-native-reanimated
+expo install react-native-gesture-handler
+npm install react-native-vector-icons
+
+
+
+
+
+
+
+=======
 npm install @react-navigation/stack
 npm install @react-navigation/drawer
 npm install @react-navigation/bottom-tabs
@@ -13,3 +35,4 @@ npm install react-native-image-picker
 
 
 
+>>>>>>> 7445952cd1ba76e126cb4c5471bc8e60f9c7d606:src/Documentacao/Dependências.txt
