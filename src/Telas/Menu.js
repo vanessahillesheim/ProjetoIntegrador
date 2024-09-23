@@ -1,3 +1,92 @@
+<<<<<<< HEAD
+import React from "react";
+import { View, Text, Image, TouchableHighlight } from "react-native";
+import { estilos } from "../styleSheet/estilos";
+import { useNavigation } from "@react-navigation/native";
+
+
+function Menu() {
+    let fundoCabecalho = require("../img/cabecalho.png");
+
+    const nav = useNavigation();
+
+    function calendario(){
+        nav.navigate('Calendario')
+    }
+    function novacorrida(){
+        nav.navigate('CadastroCorrida')
+    }
+
+    function lista(){
+        nav.navigate('ListaCorridas')
+    }
+
+    function detalhes(){
+        nav.navigate('DetalhesCorridas')
+    }
+
+    function diaNoite(){
+        nav.navigate('DiaNoite')
+    }
+
+    return (
+        <View style={estilos.fundo}>
+            <View style={estilos.cabecalhoCadastro}>
+                <View>
+                    <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
+                </View>
+              
+            </View>
+            <View style={estilos.corpoMenu}>
+            <TouchableHighlight style={estilos.rodapeBotao}
+                    onPress={() => novacorrida()}
+
+                >
+                    <Text style={{ color: 'white', fontWeight: "bold" }}>Nova Corrida</Text>
+                </TouchableHighlight>
+              
+               
+            
+                <TouchableHighlight style={estilos.rodapeBotao}
+                    onPress={() => lista()}
+
+                >
+                    <Text style={{ color: 'white', fontWeight: "bold" }}>Todas Corridas</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={estilos.rodapeBotao}
+                    onPress={() => detalhes()}
+
+                >
+                    <Text style={{ color: 'white', fontWeight: "bold" }}>Detalhes da Corrida</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={estilos.rodapeBotao}
+                    onPress={() => diaNoite()}
+
+                >
+                    <Text style={{ color: 'white', fontWeight: "bold" }}>Dia ou noite?</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={estilos.rodapeBotao}
+                    onPress={() => calendario()}
+
+                >
+                    <Text style={{ color: 'white', fontWeight: "bold" }}>Calendário</Text>
+                </TouchableHighlight>
+                        
+            </View>
+
+            
+        </View>
+
+        
+
+
+
+    );
+}
+=======
 import React from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import { estilos } from "../styleSheet/estilos";
@@ -85,4 +174,5 @@ function Menu() {
 
     );
 }
+>>>>>>> 7445952cd1ba76e126cb4c5471bc8e60f9c7d606
 export default Menu

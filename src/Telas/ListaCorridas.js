@@ -1,98 +1,79 @@
-import React from "react";
-import { View, Text, SectionList, Image, TouchableHighlight } from "react-native";
-import { estilos } from "../styleSheet/estilos";
-import { useNavigation } from "@react-navigation/native";
+// src/Telas/ListaCorridas.js
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import { collection, getDocs } from "firebase/firestore";
+import database from "../database/firebaseconexao"; // Importa a configuração do Firebase
+import { estilos } from "../styleSheet/estilos"; // Importa os estilos
+import Icon from 'react-native-vector-icons/FontAwesome5'; // Importa o ícone
 
+function ListaCorridas({ navigation }) {
+    const fundoCabecalho = require("../img/cabecalho.png");
+    const [corridas, setCorridas] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-function ListaCorridas() {
-    let fundoCabecalho = require('../img/cabecalho.png');
+    useEffect(() => {
+        const fetchCorridas = async () => {
+            try {
+                const corridasCollection = collection(database, "corridas");
+                const corridasSnapshot = await getDocs(corridasCollection);
+                const corridasList = corridasSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-    const nav = useNavigation();
-    function menu(){
-        nav.navigate('Menu')
-    }
+                // Ordena as corridas por data em ordem decrescente
+                const sortedCorridas = corridasList.sort((a, b) => new Date(b.data) - new Date(a.data));
+                setCorridas(sortedCorridas);
+            } catch (error) {
+                console.error("Erro ao buscar corridas: ", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const Datas = [
-        'Janeiro de 2024', 'Fevereiro de 2024', 'Março de 2024',
-        'Abril de 2024', 'Junho de 2024', 'Julho de 2024', 'Agosto de 2024', 'Setembro de 2024', 'Outubro de 2024', 'Novembro de 2024', 'Dezembro de 2024'
-    ];
+        fetchCorridas();
+    }, []);
 
-    const Corridas = [
-        ['Dia 28: Batel Run'],
-        ['Dia 18: Meia Maratona de Curitiba'],
-        ['Dia 10: Corrida da Mulher',
-         'Dia 17: Furacão Runner'],
-        ['Dia 14: Santader Track&Fiel', 
-         'Dia 28: Circuito AENT4'],
-        ['Dia 12: Meia Maratona Internacional'],
-        ['Dia 23: Corrida da Polícia Científica'],
-        ['Dia 07: 15k de Santa Felicidade',
-         'Dia 27: Mundo Livre Rock and Run'],
-        ['Dia 25: Circuito de Corridas PM Curitiba'],
-        ['Dia 01: Corrida do dia do Soldado',
-         'Dia 29: Circuito AENT5'
-        ],
-        ['Dia 13: Run the Pink 2024 '],
-        ['Dia 10: 5ª Corrida dos Amigos do HC', 
-         'Dia 17: Maratona de Curitiba'
-        ],
-        ['Dia 08: Circuito Sanepar', 
-         'Dia 31: São Silvestre'],
+    const handleUpdate = (item) => {
+        navigation.navigate('AtualizacaoCorrida', { corrida: item });
+    };
 
-                    
-    ];
-
-    function mostra_dados({ item }) {
+    if (loading) {
         return (
-            <View>
-                <Text style={{ fontSize: 18, paddingLeft: 20 }}>{item}</Text>
+            <View style={estilos.fundo}>
+                <Text>Carregando corridas...</Text>
             </View>
         );
     }
-
-    function mostra_Cab_Secao({ section }) {
-        return (
-            <View>
-                <Text style={{ fontSize: 20, backgroundColor: 'lightblue', textAlign: 'center', color: '#0038a8' }}>{section.title}</Text>
-            </View>
-        );
-    }
-
-
 
     return (
         <View style={estilos.fundo}>
             <View style={estilos.cabecalhoCadastro}>
                 <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
-                <View style={estilos.corpoCadastro}>
-                <Text style={estilos.titulo}>Todas as corridas:</Text>
-                </View>
             </View>
+            
+            <Text style={[estilos.titulo, { paddingTop: 50 }]}>Corridas Cadastradas</Text>
 
-            <View style={estilos.lista}>
-                <SectionList
-                    sections={[
-                        { title: Datas[0], data: Corridas[0] },
-                        { title: Datas[1], data: Corridas[1] },
-                        { title: Datas[2], data: Corridas[2] },
-                        { title: Datas[3], data: Corridas[3] },
-                        { title: Datas[4], data: Corridas[4] },
-                        { title: Datas[5], data: Corridas[5] },
-                        { title: Datas[6], data: Corridas[6] },
-                        { title: Datas[7], data: Corridas[7] },
-                        { title: Datas[8], data: Corridas[8] },
-                        { title: Datas[9], data: Corridas[9] },
-                        { title: Datas[10], data: Corridas[10] },
-                        { title: Datas[11], data: Corridas[11] },
-                    ]}
-                    renderItem={mostra_dados}
-                    renderSectionHeader={mostra_Cab_Secao}
-                    keyExtractor={(item, index) => item + index}
-                />
-            </View>
-           
-
-          
+            <FlatList
+                data={corridas}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                    <TouchableOpacity style={estilos.card}>
+                        <Text style={estilos.cardTitle}>{item.nomeEvento}</Text>
+                        <Text>Data: {new Date(item.data).toLocaleDateString()}</Text>
+                        <Text>Distância: {item.distancia} km</Text>
+                        <Text>Local: {item.local}</Text>
+                        <Text>Horário: {item.horario}</Text>
+                        <Text>Valor: R$ {item.valor}</Text>
+                        <Text>Tempo Bruto: {item.tempoBruto}</Text>
+                        <Text>Tempo Líquido: {item.tempoLiquido}</Text>
+                        <Text>Classificação Geral: {item.classificacaoGeral}</Text>
+                        <Text>Classificação Faixa Etária: {item.classificacaoFaixaEtaria}</Text>
+                        
+                        <TouchableOpacity onPress={() => handleUpdate(item)}>
+                            <Icon name="edit" size={20} color="#12B1F5" />
+                        </TouchableOpacity>
+                    </TouchableOpacity>
+                )}
+                style={{ flex: 0.6 }} // Adiciona flex 0.6 ao FlatList
+            />
         </View>
     );
 }
