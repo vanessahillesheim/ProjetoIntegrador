@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableHighlight, Alert, TextInput } from "react-native"; // Adicione TextInput aqui
+import { View, Text, Image, TouchableHighlight, TextInput, Pressable, Modal, Alert } from "react-native"; 
 import { estilos } from "../styleSheet/estilos";
 import { doc, updateDoc } from "firebase/firestore";
 import database from "../database/firebaseconexao"; 
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Calendar } from 'react-native-calendars';
+import moment from 'moment-timezone'; // Adicionando moment-timezone
 
 function AtualizacaoCorrida() {
     const route = useRoute();
@@ -20,6 +22,7 @@ function AtualizacaoCorrida() {
     const [local, setLocal] = useState(corrida.local);
     const [horario, setHorario] = useState(corrida.horario);
     const [valor, setValor] = useState(corrida.valor);
+    const [showCalendar, setShowCalendar] = useState(false); 
 
     const handleUpdate = async () => {
         if (!tempoBruto || !tempoLiquido || !classificacaoGeral || !classificacaoFaixaEtaria || !data || !distancia || !local || !horario || !valor) {
@@ -39,8 +42,16 @@ function AtualizacaoCorrida() {
             horario,
             valor,
         });
-        navigation.goBack(); 
+        navigation.navigate('ListaCorridas'); // Navega para a tela ListaCorridas
     };
+
+    const onDayPress = (day) => {
+        // Ajuste a data para o fuso horário local
+        const selectedDate = moment(day.dateString).tz(moment.tz.guess()).format('YYYY-MM-DD');
+        setData(selectedDate);
+        setShowCalendar(false);
+    };
+    
 
     return (
         <View style={estilos.fundo}>
@@ -48,19 +59,27 @@ function AtualizacaoCorrida() {
                 <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
             </View>
 
-            <View style={estilos.corpoCadastro}>
-                <Text style={estilos.titulo}>Evento: {corrida.nomeEvento}</Text> 
+            <View style={estilos.corpoMenu}>
+                <Text style={estilos.titulo}>{corrida.nomeEvento}</Text> 
 
-                <TextInput
-                    style={estilos.entrada_texto} // Aplica o estilo direto
-                    placeholder="Data (YYYY-MM-DD):"
-                    autoCapitalize="none"
-                    maxLength={10}
-                    keyboardType="default"
-                    editable={true}
-                    onChangeText={setData}
-                    value={data}
-                />
+                <Pressable onPress={() => setShowCalendar(true)} style={{ padding: 10 }}>
+                    <Text style={estilos.entrada_texto}>{data ? `Data Selecionada: ${data}` : "Selecione a data:"}</Text>
+                </Pressable>
+
+                <Modal transparent={true} visible={showCalendar} animationType="slide" onRequestClose={() => setShowCalendar(false)}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                        <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20 }}>
+                            <Calendar 
+                                onDayPress={onDayPress} 
+                                markedDates={{ [data]: { selected: true, selectedColor: 'blue' } }} 
+                            />
+                            <Pressable onPress={() => setShowCalendar(false)}>
+                                <Text style={{ marginTop: 10, color: 'blue', textAlign: 'center' }}>Fechar</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+
                 <TextInput
                     style={estilos.entrada_texto} 
                     placeholder="Distância (km):"

@@ -1,10 +1,10 @@
-// src/Telas/ListaCorridas.js
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
-import { collection, getDocs } from "firebase/firestore";
+import { View, Text, FlatList, TouchableOpacity, Image, Alert } from "react-native";
+import { collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore"; // Importa deleteDoc e getDoc
 import database from "../database/firebaseconexao"; // Importa a configuração do Firebase
 import { estilos } from "../styleSheet/estilos"; // Importa os estilos
 import Icon from 'react-native-vector-icons/FontAwesome5'; // Importa o ícone
+import moment from 'moment-timezone'; // Importa moment-timezone
 
 function ListaCorridas({ navigation }) {
     const fundoCabecalho = require("../img/cabecalho.png");
@@ -12,28 +12,65 @@ function ListaCorridas({ navigation }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchCorridas = async () => {
-            try {
-                const corridasCollection = collection(database, "corridas");
-                const corridasSnapshot = await getDocs(corridasCollection);
-                const corridasList = corridasSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const corridasCollection = collection(database, "corridas");
 
-                // Ordena as corridas por data em ordem decrescente
-                const sortedCorridas = corridasList.sort((a, b) => new Date(b.data) - new Date(a.data));
-                setCorridas(sortedCorridas);
-            } catch (error) {
-                console.error("Erro ao buscar corridas: ", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        const unsubscribe = onSnapshot(corridasCollection, (snapshot) => {
+            const corridasList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        fetchCorridas();
+            // Ordena as corridas por data
+            const sortedCorridas = corridasList.sort((a, b) => new Date(b.data) - new Date(a.data));
+            setCorridas(sortedCorridas);
+            setLoading(false);
+            console.log("Corridas atualizadas:", sortedCorridas); // Log das corridas atualizadas
+        }, (error) => {
+            console.error("Erro ao buscar corridas: ", error);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
     }, []);
 
     const handleUpdate = (item) => {
         navigation.navigate('AtualizacaoCorrida', { corrida: item });
     };
+
+    const handleDelete = async (id) => {
+        Alert.alert(
+            "Excluir Corrida",
+            "Tem certeza que deseja excluir esta corrida?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "Excluir",
+                    onPress: async () => {
+                        console.log("Exclusão iniciada para ID:", id); // Log para verificar se a exclusão está sendo chamada
+                        try {
+                            const corridaRef = doc(database, "corridas", id);
+                            console.log("Referência do documento:", corridaRef.path); // Log da referência do documento
+    
+                            const docSnapshot = await getDoc(corridaRef); // Verifica se o documento existe
+                            if (!docSnapshot.exists()) {
+                                Alert.alert("Erro", "Corrida não encontrada.");
+                                return; // Se o documento não existe, sai da função
+                            }
+    
+                            await deleteDoc(corridaRef); // Tenta deletar o documento
+                            console.log("Corrida excluída com sucesso!"); // Log de sucesso
+                            Alert.alert("Sucesso", "Corrida excluída com sucesso!"); // Alerta de sucesso
+    
+                            // Atualiza a lista após a exclusão
+                            setCorridas(prevCorridas => prevCorridas.filter(corrida => corrida.id !== id));
+                        } catch (error) {
+                            console.error("Erro ao excluir corrida: ", error.message); // Exibe a mensagem detalhada do erro
+                            Alert.alert("Erro", `Não foi possível excluir a corrida. Erro: ${error.message}`); // Alerta de erro
+                        }
+                    }
+                },
+            ],
+            { cancelable: false }
+        );
+    };
+    
 
     if (loading) {
         return (
@@ -56,8 +93,21 @@ function ListaCorridas({ navigation }) {
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={estilos.card}>
-                        <Text style={estilos.cardTitle}>{item.nomeEvento}</Text>
-                        <Text>Data: {new Date(item.data).toLocaleDateString()}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text style={estilos.cardTitle}>{item.nomeEvento}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={() => handleUpdate(item)}>
+                                    <Icon name="edit" size={15} color="#12B1F5" style={{ marginRight: 10 }} />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => {
+                                    console.log("Delete icon pressed for ID:", item.id); // Log ao clicar no ícone de delete
+                                    handleDelete(item.id);
+                                }}>
+                                    <Icon name="trash" size={15} color="#12B1F5" />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <Text>Data: {moment(item.data).tz(moment.tz.guess()).format('DD/MM/YYYY')}</Text>
                         <Text>Distância: {item.distancia} km</Text>
                         <Text>Local: {item.local}</Text>
                         <Text>Horário: {item.horario}</Text>
@@ -65,11 +115,7 @@ function ListaCorridas({ navigation }) {
                         <Text>Tempo Bruto: {item.tempoBruto}</Text>
                         <Text>Tempo Líquido: {item.tempoLiquido}</Text>
                         <Text>Classificação Geral: {item.classificacaoGeral}</Text>
-                        <Text>Classificação Faixa Etária: {item.classificacaoFaixaEtaria}</Text>
-                        
-                        <TouchableOpacity onPress={() => handleUpdate(item)}>
-                            <Icon name="edit" size={20} color="#12B1F5" />
-                        </TouchableOpacity>
+                        <Text>Classif. Faixa Etária: {item.classificacaoFaixaEtaria}</Text>
                     </TouchableOpacity>
                 )}
                 style={{ flex: 0.6 }} // Adiciona flex 0.6 ao FlatList
