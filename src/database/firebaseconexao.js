@@ -1,24 +1,36 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Your web app's Firebase configuration
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
+  MEASUREMENT_ID,
+} from "@env";
+
 const firebaseConfig = {
-    apiKey: "AIzaSyCONwPi2-6JxkCd5LTylO1lSVq3ULImK2k",
-    authDomain: "runtraking.firebaseapp.com",
-    databaseURL: "https://runtraking-default-rtdb.firebaseio.com",
-    projectId: "runtraking",
-    storageBucket: "runtraking.appspot.com",
-    messagingSenderId: "1058600485662",
-    appId: "1:1058600485662:web:55bfe18a831fa8b51cbf0f",
-    measurementId: "G-V2WFVG5988"
-  };
-  
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: "https://runtraking-default-rtdb.firebaseio.com",
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID,
+};
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore
+// Usar setPersistence para definir a persistência do armazenamento
+const auth = getAuth(app);
+setPersistence(auth, browserSessionPersistence);
+
 const database = getFirestore(app);
 
+export { auth };
 export default database;
