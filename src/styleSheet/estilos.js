@@ -34,28 +34,54 @@ const estilos = StyleSheet.create({
         resizeMode: 'contain',
     },
     entrada_texto: {
-        height: 50, width: 270,  marginHorizontal: 10, fontSize: 16, padding: 10,
-        borderRadius: 6, marginBottom: 20,
-        textAlign: 'center',
-    },
-    entrada_texto4: {
-        height: 50, width: 270,  marginHorizontal: 10, fontSize: 16, padding: 10,
-        borderRadius: 6, marginBottom: 20,
-        textAlign: 'center', borderWidth: 1, borderColor: '#12B1F5', 
-    },
-    entrada_texto2: {
-        height: 60, width: 270, borderWidth: 1, borderColor: '#12B1F5', marginHorizontal: 10, fontSize: 20, padding: 5,
-        textAlign: 'center'
-    },
+    height: 30, // Diminua a altura
+    width: 270,
+    marginHorizontal: 10,
+    fontSize: 16,
+    padding: 10,
+    borderRadius: 6,
+    marginBottom: 15, // Ajuste a margem inferior
+    textAlign: 'center',
+},
 
-    entrada_texto3: {
-        borderWidth: 1, // Defina a largura da borda
-        borderColor: "#12B1F5", // Defina a cor da borda
-        borderRadius: 5, // Defina o raio da borda
-        padding: 10, // Espaçamento interno
-        marginVertical: 5, // Margem vertical
-       
-    },
+entrada_texto4: {
+    height: 30, // Diminua a altura
+    width: 270,
+    marginHorizontal: 10,
+    fontSize: 16,
+    padding: 10,
+    borderRadius: 6,
+    marginBottom: 15, // Ajuste a margem inferior
+    textAlign: 'center',
+    borderWidth: 1,
+    borderColor: '#12B1F5',
+},
+
+entrada_texto2: {
+    height: 30, // Diminua a altura
+    width: 270,
+    borderWidth: 1,
+    borderColor: '#12B1F5',
+    marginHorizontal: 10,
+    fontSize: 16,
+    padding: 5,
+    textAlign: 'center',
+},
+
+entrada_texto3: {
+    height: 30, // Diminua a altura
+    borderWidth: 1,
+    borderColor: "#12B1F5",
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 5,
+},
+
+containerBairroCidade: {
+    flexDirection: 'row', // Alinha os campos horizontalmente
+    justifyContent: 'space-between',
+    marginBottom: 10,
+},
 
     corpo: {
         flex: 0.25,
@@ -67,6 +93,14 @@ const estilos = StyleSheet.create({
 
     corpoCadastro: {
         flex: 0.55,
+        paddingHorizontal: 20,
+        alignItems: 'center',
+
+
+    },
+
+    corpoCadastroUsuario: {
+        flex: 0.8,
         paddingHorizontal: 20,
         alignItems: 'center',
 
@@ -262,7 +296,20 @@ const estilos = StyleSheet.create({
         width: 100, 
         height: 100
 
-    }
+    },
+    // Adicione ao seu arquivo de estilos
+imagemSelecionada: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginTop: 10,
+},
+botonSelecionarFoto: {
+    color: '#12B1F5',
+    marginTop: 10,
+    textDecorationLine: 'underline',
+},
+
 
 
 
