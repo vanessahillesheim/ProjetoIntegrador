@@ -10,9 +10,13 @@ npm install firebase
 npm install react-native-calendars
 npm install react-native-image-picker
 expo install react-native-reanimated
-expo install react-native-gesture-handler
+npm install react-native-gesture-handler --legacy-peer-deps
 npm install react-native-vector-icons
 npm install @react-native-async-storage/async-storage@1.17.3 --legacy-peer-deps
+npx react-native start --reset-cache
+npm install axios --legacy-peer-deps
+
+
 
 
 
