@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { TextInput, HelperText } from "react-native-paper";
 import { estilos } from "../styleSheet/estilos";
 
-export function EntradaTexto({ label, value, onChangeText, secureTextEntry, error, messageError }) {
+export function EntradaTexto({ label, value, onChangeText, secureTextEntry, error, messageError, style }) {
     // Inicializa o estado de modo seguro baseado na prop secureTextEntry
     const [secureMode, setSecureMode] = useState(secureTextEntry);
 
@@ -12,9 +12,9 @@ export function EntradaTexto({ label, value, onChangeText, secureTextEntry, erro
                 label={label}
                 value={value}
                 error={error}
-                secureTextEntry={secureMode}  // Define a visibilidade do texto
+                secureTextEntry={secureTextEntry ? secureMode : false}  // Define a visibilidade do texto
                 onChangeText={onChangeText}
-                style={estilos.entrada_texto}
+                style={[estilos.entrada_texto, style]} // Combina o estilo padrão com o passado
                 mode="outlined"
                 activeOutlineColor="#12B1F5"
                 right={

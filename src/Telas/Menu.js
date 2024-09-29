@@ -9,6 +9,7 @@ import { auth } from "../database/firebaseconexao";
 
 
 
+
 function Menu() {
     
  
@@ -26,7 +27,7 @@ function Menu() {
     }
 
     function detalhes(){
-        nav.navigate('DetalhesCorridas')
+        nav.navigate('AtualizacaoUsuario')
     }
 
     function diaNoite(){
@@ -64,7 +65,7 @@ function Menu() {
                     onPress={() => detalhes()}
 
                 >
-                    <Text style={{ color: 'white', fontWeight: "bold" }}>Detalhes da Corrida</Text>
+                    <Text style={{ color: 'white', fontWeight: "bold" }}>Atualização Usuário</Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={estilos.rodapeBotao}

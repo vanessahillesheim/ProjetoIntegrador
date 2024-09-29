@@ -1,32 +1,88 @@
 import React, { useState } from "react";
-import { View, Text, TouchableHighlight, Image } from "react-native";
+import { View, Text, TouchableHighlight, Image, Pressable } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { estilos } from "../styleSheet/estilos";
 import { EntradaTexto } from "./EntradaTexto";
-import { cadastrar } from "../servicos/requisicoesfirebase";
+import { cadastrar } from "../servicos/requisicoesfirebase"; // Função de cadastro
 import { Alerta } from "../componentes/Alerta";
 import { alteraDados } from "../utils/funcoesComum";
+import * as ImagePicker from 'react-native-image-picker';
+import axios from 'axios'; // Biblioteca para fazer requisições HTTP
 
 function CadastroUsuario({ navigation }) {
-    const fundoCabecalho = require("../img/cabecalho.png"); // Movido para o escopo correto
-
     const [dados, setDados] = useState({
         email: '',
         senha: '',
         confirmaSenha: '',
+        nome: '',
+        endereco: {
+            rua: '',
+            bairro: '',
+            cidade: '',
+            cep: '',
+        },
+        foto: null,
     });
 
     const [statusError, setStatusError] = useState('');
     const [mensagemError, setMensagemError] = useState('');
 
-   
+    const abrirGaleriaOuCamera = () => {
+        const options = {
+            mediaType: 'photo',
+            includeBase64: false,
+        };
+        ImagePicker.launchImageLibrary(options, response => {
+            if (response.assets) {
+                setDados(prevDados => ({
+                    ...prevDados,
+                    foto: response.assets[0].uri // Armazena a URI da imagem selecionada
+                }));
+            }
+        });
+    };
+
+    const buscarEnderecoPorCEP = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const { logradouro, bairro, localidade } = response.data;
+            if (logradouro) {
+                setDados(prevDados => ({
+                    ...prevDados,
+                    endereco: {
+                        ...prevDados.endereco,
+                        rua: logradouro,
+                        bairro: bairro,
+                        cidade: localidade,
+                        cep: cep
+                    }
+                }));
+            } else {
+                setMensagemError('CEP não encontrado.');
+                setStatusError('cep');
+            }
+        } catch (error) {
+            setMensagemError('Erro ao buscar o endereço.');
+            setStatusError('cep');
+        }
+    };
 
     async function realizarCadastro() {
-        if (dados.email === '') {
+        // Validações
+        if (dados.nome === '') {
+            setMensagemError('Preencha o seu nome');
+            setStatusError('nome');
+            return;
+        } else if (dados.email === '') {
             setMensagemError('Preencha o seu e-mail');
             setStatusError('email');
             return;
         } else if (dados.senha === '') {
             setMensagemError('Preencha sua senha');
+            setStatusError('senha');
+            return;
+        } else if (dados.senha.length < 6) {
+            setMensagemError('A senha deve ter pelo menos 6 caracteres');
             setStatusError('senha');
             return;
         } else if (dados.confirmaSenha === '') {
@@ -37,62 +93,158 @@ function CadastroUsuario({ navigation }) {
             setMensagemError('A senha não confere!');
             setStatusError('confirmaSenha');
             return;
-        } else{
+        } else if (dados.endereco.rua === '') {
+            setMensagemError('Preencha a sua rua');
+            setStatusError('rua');
+            return;
+        } else if (dados.endereco.bairro === '') {
+            setMensagemError('Preencha o seu bairro');
+            setStatusError('bairro');
+            return;
+        } else if (dados.endereco.cidade === '') {
+            setMensagemError('Preencha a sua cidade');
+            setStatusError('cidade');
+            return;
+        } else if (dados.endereco.cep === '') {
+            setMensagemError('Preencha o seu CEP');
+            setStatusError('cep');
+            return;
+        } else if (!dados.foto) {
+            setMensagemError('Adicione uma foto');
+            setStatusError('foto');
+            return;
+        }
 
-        const resultado = await cadastrar(dados.email, dados.senha);
-        setStatusError('firebase')
-        if (resultado === 'sucesso') {
+        // Cadastrar o usuário no Firebase Authentication
+        const resultado = await cadastrar(dados.email, dados.senha, {
+            nome: dados.nome,
+            endereco: dados.endereco,
+            foto: dados.foto,
+            email: dados.email,
+        });
+
+        setStatusError('firebase');
+
+        if (resultado === "sucesso") { // Verifica se o resultado foi bem-sucedido
             setMensagemError('Usuário cadastrado com sucesso!');
-            // Limpa os dados usando setDados
             setDados({
                 email: '',
                 senha: '',
                 confirmaSenha: '',
+                nome: '',
+                endereco: {
+                    rua: '',
+                    bairro: '',
+                    cidade: '',
+                    cep: '',
+                },
+                foto: null,
             });
-            navigation.navigate('CadastroSucessoUser'); // Correção aqui
+            navigation.navigate('CadastroSucessoUser');
         } else {
-            setMensagemError(resultado);
+            setMensagemError(resultado); // Se houver outro erro
         }
     }
-}
 
     return (
         <View style={estilos.fundo}>
-            <View style={estilos.cabecalho}>
-                <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
+            <View>
+                <Text style={estilos.titulo}>
+                    Preencha seu Cadastro
+                </Text>
             </View>
-            <View style={estilos.corpoCadastro}>
-                <Text style={estilos.titulo}>Preencha seu cadastro:</Text>
-                <View style={{ paddingTop: 80 }}>
+            <View style={estilos.corpoCadastroUsuario}>
+                <View style={{ paddingTop: 10 }}>
                     <EntradaTexto
-                        label='e-mail'
+                        label='Nome'
+                        value={dados.nome}
+                        onChangeText={valor => alteraDados('nome', valor, dados, setDados)}
+                        error={statusError === 'nome'}
+                        messageError={mensagemError}
+                        containerStyle={{ height: 25 }}
+                    />
+                    <EntradaTexto
+                        label='E-mail'
                         value={dados.email}
                         onChangeText={valor => alteraDados('email', valor, dados, setDados)}
                         error={statusError === 'email'}
                         messageError={mensagemError}
+                        containerStyle={{ height: 25 }}
                     />
                     <EntradaTexto
-                        label='senha'
+                        label='Senha'
                         value={dados.senha}
                         onChangeText={valor => alteraDados('senha', valor, dados, setDados)}
                         error={statusError === 'senha'}
                         messageError={mensagemError}
-                        secureTextEntry={true} // Ativa o comportamento de senha
+                        secureTextEntry={true}
+                        containerStyle={{ height: 25 }}
                     />
                     <EntradaTexto
-                        label='confirmar senha'
+                        label='Confirmar Senha'
                         value={dados.confirmaSenha}
                         onChangeText={valor => alteraDados('confirmaSenha', valor, dados, setDados)}
                         error={statusError === 'confirmaSenha'}
                         messageError={mensagemError}
-                        secureTextEntry={true} // Ativa o comportamento de senha
+                        secureTextEntry={true}
+                        containerStyle={{ height: 25 }}
                     />
+                    <EntradaTexto
+                        label='CEP'
+                        value={dados.endereco.cep}
+                        onChangeText={valor => {
+                            alteraDados('endereco.cep', valor, dados, setDados);
+                            if (valor.length === 8) { // Quando o CEP tem 8 dígitos
+                                buscarEnderecoPorCEP(valor); // Chama a função para buscar o endereço
+                            }
+                        }}
+                        error={statusError === 'cep'}
+                        messageError={mensagemError}
+                        containerStyle={{ height: 25 }}
+                    />
+                    <EntradaTexto
+                        label='Rua'
+                        value={dados.endereco.rua}
+                        onChangeText={valor => alteraDados('endereco.rua', valor, dados, setDados)}
+                        error={statusError === 'rua'}
+                        messageError={mensagemError}
+                        containerStyle={{ height: 25 }}
+                    />
+                    <View style={estilos.containerLinha}>
+                        <EntradaTexto
+                            label='Bairro'
+                            value={dados.endereco.bairro}
+                            onChangeText={valor => alteraDados('endereco.bairro', valor, dados, setDados)}
+                            error={statusError === 'bairro'}
+                            messageError={mensagemError}
+                            containerStyle={estilos.campoLinha}
+                            height={25}
+                        />
+                        <EntradaTexto
+                            label='Cidade'
+                            value={dados.endereco.cidade}
+                            onChangeText={valor => alteraDados('endereco.cidade', valor, dados, setDados)}
+                            error={statusError === 'cidade'}
+                            messageError={mensagemError}
+                            containerStyle={estilos.campoLinha}
+                            height={25}
+                        />
+                    </View>
+                    
+                    <Pressable onPress={abrirGaleriaOuCamera} style={[estilos.cameraIcon, { height: 25, justifyContent: 'center', flexDirection: 'row' }]}>
+                        <Icon name="camera" size={20} color="#12B1F5" />
+                        <Text style={{ marginLeft: 5 }}>Adicionar Foto</Text>
+                    </Pressable>
+
+                    {dados.foto && (
+                        <Image source={{ uri: dados.foto }} style={{ width: 100, height: 100, marginTop: 10 }} />
+                    )}
                 </View>
             </View>
             <View style={estilos.rodapeCadastro}>
                 <Alerta
                     mensagem={mensagemError}
-                    error={statusError === 'firebase'} // Corrigido para 'firebase'
+                    error={statusError === 'firebase'}
                     setError={setStatusError}
                 />
                 <TouchableHighlight style={estilos.rodapeBotao} onPress={realizarCadastro}>
