@@ -2,16 +2,11 @@ import React from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import { estilos } from "../styleSheet/estilos";
 import { useNavigation } from "@react-navigation/native";
-import Cabecalho from "./Cabecalho";
-import { auth } from "../database/firebaseconexao";
-
-
-
 
 
 function Menu() {
-    
- 
+    let fundoCabecalho = require("../img/cabecalho.png");
+
     const nav = useNavigation();
 
     function calendario(){
@@ -33,16 +28,14 @@ function Menu() {
         nav.navigate('DiaNoite')
     }
 
-    function deslogar(){
-        auth.signOut();
-        nav.replace('Tela1');
-    }
-
-
     return (
         <View style={estilos.fundo}>
-            <Cabecalho logout={deslogar}/>
-           
+            <View style={estilos.cabecalhoCadastro}>
+                <View>
+                    <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
+                </View>
+              
+            </View>
             <View style={estilos.corpoMenu}>
             <TouchableHighlight style={estilos.rodapeBotao}
                     onPress={() => novacorrida()}

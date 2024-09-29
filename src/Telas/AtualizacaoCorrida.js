@@ -63,7 +63,7 @@ function AtualizacaoCorrida() {
                 <Text style={estilos.titulo}>{corrida.nomeEvento}</Text> 
 
                 <Pressable onPress={() => setShowCalendar(true)} style={{ padding: 10 }}>
-                    <Text style={estilos.entrada_texto}>{data ? `Data Selecionada: ${data}` : "Selecione a data:"}</Text>
+                    <Text style={estilos.entrada_texto4}>{data ? `Data Selecionada: ${data}` : "Selecione a data:"}</Text>
                 </Pressable>
 
                 <Modal transparent={true} visible={showCalendar} animationType="slide" onRequestClose={() => setShowCalendar(false)}>
@@ -81,7 +81,7 @@ function AtualizacaoCorrida() {
                 </Modal>
 
                 <TextInput
-                    style={estilos.entrada_texto} 
+                    style={estilos.entrada_texto4} 
                     placeholder="Distância (km):"
                     autoCapitalize="none"
                     maxLength={10}
@@ -91,7 +91,7 @@ function AtualizacaoCorrida() {
                     value={distancia}
                 />
                 <TextInput
-                    style={estilos.entrada_texto} 
+                    style={estilos.entrada_texto4} 
                     placeholder="Local:"
                     autoCapitalize="none"
                     maxLength={30}
@@ -101,7 +101,7 @@ function AtualizacaoCorrida() {
                     value={local}
                 />
                 <TextInput
-                    style={estilos.entrada_texto} 
+                    style={estilos.entrada_texto4} 
                     placeholder="Horário (hh:mm):"
                     autoCapitalize="none"
                     maxLength={5}
@@ -111,7 +111,7 @@ function AtualizacaoCorrida() {
                     value={horario}
                 />
                 <TextInput
-                    style={estilos.entrada_texto} 
+                    style={estilos.entrada_texto4} 
                     placeholder="Valor (R$):"
                     autoCapitalize="none"
                     maxLength={10}

@@ -66,12 +66,12 @@ function CadastroCorrida() {
                 />
 
                 <Pressable onPress={() => setShowCalendar(true)} style={{ padding: 10 }}>
-                    <Text style={estilos.entrada_texto}>{data ? `Data Selecionada: ${data}` : "Selecione a data:"}</Text>
+                    <Text style={estilos.entrada_texto4}>{data ? `Data Selecionada: ${data}` : "Selecione a data:"}</Text>
                 </Pressable>
 
                 <Modal transparent={true} visible={showCalendar} animationType="slide" onRequestClose={() => setShowCalendar(false)}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20 }}>
+                        <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, }}>
                             <Calendar onDayPress={onDayPress} markedDates={{ [data]: { selected: true, selectedColor: 'blue' } }} />
                             <Pressable onPress={() => setShowCalendar(false)}>
                                 <Text style={{ marginTop: 10, color: 'blue', textAlign: 'center' }}>Fechar</Text>
