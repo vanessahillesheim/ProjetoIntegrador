@@ -1,145 +1,118 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableHighlight } from "react-native";
-import { estilos } from "../styleSheet/estilos";
-import { EntradaTexto } from "./EntradaTexto";
-import { Alerta } from "../componentes/Alerta";
-import { buscarDadosUsuario, atualizarDadosUsuario } from "../servicos/requisicoesfirebase"; // Ajuste o caminho conforme necessário
-import { auth } from "../database/firebaseconexao"; // Importar o auth do Firebase
-import Cabecalho from "./Cabecalho";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableHighlight, Alert } from 'react-native';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import database, { auth } from '../database/firebaseconexao';
+import { estilos } from '../styleSheet/estilos';
+import { useNavigation } from '@react-navigation/native';
+import Cabecalho from './Cabecalho';
+import { onAuthStateChanged } from 'firebase/auth';
 
-function AtualizacaoUsuario({ navigation }) {
-    const [dados, setDados] = useState({
-        email: '',
-        nome: '',
-        endereco: {
-            rua: '',
-            bairro: '',
-            cidade: '',
-            cep: '',
-        },
-    });
-
-    const [statusError, setStatusError] = useState('');
-    const [mensagemError, setMensagemError] = useState('');
+function AtualizacaoUsuario() {
+    const navigation = useNavigation();
+    const [nome, setNome] = useState('');
+    const [endereco, setEndereco] = useState({});
+    const [userId, setUserId] = useState(null); // ID do usuário logado
 
     useEffect(() => {
-        const buscarDadosUsuario = async () => {
-            const usuarioId = auth.currentUser?.uid; // Obtém o ID do usuário logado
-            if (!usuarioId) {
-                setMensagemError("Usuário não logado");
-                return;
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                setUserId(user.uid); // Armazena o ID do usuário autenticado
+                await carregarUsuario(user.uid); // Carrega os dados do usuário
+            } else {
+                navigation.replace('Tela1'); // Se não estiver autenticado, redireciona para login
             }
+        });
 
-            try {
-                const usuarioData = await buscarDadosUsuario();
-                if (usuarioData) {
-                    setDados(usuarioData);
-                } else {
-                    setMensagemError("Usuário não encontrado");
-                }
-            } catch (error) {
-                setMensagemError("Erro ao buscar dados: " + error.message);
-            }
-        };
-
-        buscarDadosUsuario();
+        return () => unsubscribe();
     }, []);
 
-    const atualizarUsuario = async () => {
+    const carregarUsuario = async (userId) => {
         try {
-            const usuarioId = auth.currentUser?.uid; // Obtém o ID do usuário logado
-            if (!usuarioId) {
-                setMensagemError("Usuário não logado");
-                return;
-            }
+            const usuarioRef = doc(database, "usuarios", userId);
+            const docSnap = await getDoc(usuarioRef);
 
-            const resultado = await atualizarDadosUsuario({
-                email: dados.email,
-                nome: dados.nome,
-                endereco: dados.endereco,
-            });
-            
-            if (resultado === "sucesso") {
-                setMensagemError("Dados atualizados com sucesso!");
-                navigation.goBack(); // Navega de volta após a atualização
+            if (docSnap.exists()) {
+                const dados = docSnap.data();
+                setNome(dados.nome || '');
+                setEndereco(dados.endereco || {});
             } else {
-                setMensagemError(resultado); // Mostra o erro retornado
+                Alert.alert("Erro", "Usuário não encontrado.");
             }
         } catch (error) {
-            setMensagemError("Erro ao atualizar dados: " + error.message);
+            console.error("Erro ao carregar dados do usuário: ", error.message);
+            Alert.alert("Erro", "Não foi possível carregar os dados do usuário.");
         }
     };
 
-    const deslogar = async () => {
+    const handleUpdate = async () => {
         try {
-            await auth.signOut(); // Faz o logout do Firebase
-            navigation.replace('Tela1'); // Navega para Tela1, substituindo a tela atual
+            if (!userId) return;
+            const usuarioRef = doc(database, "usuarios", userId);
+    
+            // Atualizando os dados no Firestore
+            await updateDoc(usuarioRef, {
+                nome: nome,
+                endereco: endereco,
+            });
+
+            Alert.alert("Sucesso", "Usuário atualizado com sucesso!");
+            navigation.navigate('ListaUsuario'); 
         } catch (error) {
-            console.error("Erro ao deslogar: ", error);
+            console.error("Erro ao atualizar usuário: ", error.message);
+            Alert.alert("Erro", `Não foi possível atualizar o usuário. Erro: ${error.message}`);
         }
     };
-    
+
+    function deslogar() {
+        auth.signOut();
+        navigation.replace('Tela1');
+    }
+
     return (
         <View style={estilos.fundo}>
-            <Cabecalho logout={deslogar}/>
-            <View>
-                <Text style={estilos.titulo}>
-                    Atualize seu Cadastro
-                </Text>
+            <Cabecalho logout={deslogar} />
+            <View style={estilos.corpoMenu}>
+                <Text style={estilos.titulo}>Atualizar Usuário</Text>
+
+                <TextInput
+                    style={estilos.entrada_texto4}
+                    placeholder="Nome"
+                    value={nome}
+                    onChangeText={setNome}
+                />
+              
+                <TextInput
+                    style={estilos.entrada_texto4}
+                    placeholder="Endereço (Rua)"
+                    value={endereco.rua || ''}
+                    onChangeText={rua => setEndereco({ ...endereco, rua })}
+                />
+                <TextInput
+                    style={estilos.entrada_texto4}
+                    placeholder="Bairro"
+                    value={endereco.bairro || ''}
+                    onChangeText={bairro => setEndereco({ ...endereco, bairro })}
+                />
+                <TextInput
+                    style={estilos.entrada_texto4}
+                    placeholder="Cidade"
+                    value={endereco.cidade || ''}
+                    onChangeText={cidade => setEndereco({ ...endereco, cidade })}
+                />
+                <TextInput
+                    style={estilos.entrada_texto4}
+                    placeholder="CEP"
+                    value={endereco.cep || ''}
+                    onChangeText={cep => setEndereco({ ...endereco, cep })}
+                    keyboardType="numeric"
+                />
             </View>
-            <View style={estilos.corpoCadastroUsuario}>
-                {/* Entradas de texto para dados do usuário */}
-                <EntradaTexto
-                    label='Nome'
-                    value={dados.nome}
-                    onChangeText={valor => setDados(prevDados => ({ ...prevDados, nome: valor }))}
-                    error={statusError === 'nome'}
-                    messageError={mensagemError}
-                />
-                <EntradaTexto
-                    label='E-mail'
-                    value={dados.email}
-                    onChangeText={valor => setDados(prevDados => ({ ...prevDados, email: valor }))}
-                    error={statusError === 'email'}
-                    messageError={mensagemError}
-                />
-                <EntradaTexto
-                    label='Rua'
-                    value={dados.endereco.rua}
-                    onChangeText={valor => setDados(prevDados => ({ ...prevDados, endereco: { ...prevDados.endereco, rua: valor } }))}
-                    error={statusError === 'rua'}
-                    messageError={mensagemError}
-                />
-                <EntradaTexto
-                    label='Bairro'
-                    value={dados.endereco.bairro}
-                    onChangeText={valor => setDados(prevDados => ({ ...prevDados, endereco: { ...prevDados.endereco, bairro: valor } }))}
-                    error={statusError === 'bairro'}
-                    messageError={mensagemError}
-                />
-                <EntradaTexto
-                    label='Cidade'
-                    value={dados.endereco.cidade}
-                    onChangeText={valor => setDados(prevDados => ({ ...prevDados, endereco: { ...prevDados.endereco, cidade: valor } }))}
-                    error={statusError === 'cidade'}
-                    messageError={mensagemError}
-                />
-                <EntradaTexto
-                    label='CEP'
-                    value={dados.endereco.cep}
-                    onChangeText={valor => setDados(prevDados => ({ ...prevDados, endereco: { ...prevDados.endereco, cep: valor } }))}
-                    error={statusError === 'cep'}
-                    messageError={mensagemError}
-                />
-                <TouchableHighlight style={estilos.rodapeBotao} onPress={atualizarUsuario}>
+
+            <View style={estilos.rodapeCadastro}>
+                <TouchableHighlight style={[estilos.rodapeBotao, { marginTop: 20 }]} onPress={handleUpdate}>
                     <Text style={{ color: 'white', fontWeight: "bold" }}>Atualizar</Text>
                 </TouchableHighlight>
             </View>
-            <Alerta
-                mensagem={mensagemError}
-                error={statusError === 'firebase'}
-                setError={setStatusError}
-            />
         </View>
     );
 }

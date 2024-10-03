@@ -23,27 +23,7 @@ function AtualizacaoCorrida() {
     const [horario, setHorario] = useState(corrida.horario);
     const [valor, setValor] = useState(corrida.valor);
     const [showCalendar, setShowCalendar] = useState(false); 
-
-    const handleUpdate = async () => {
-        if (!tempoBruto || !tempoLiquido || !classificacaoGeral || !classificacaoFaixaEtaria || !data || !distancia || !local || !horario || !valor) {
-            Alert.alert("Erro", "Todos os campos são obrigatórios!");
-            return;
-        }
-
-        const corridaRef = doc(database, "corridas", corrida.id);
-        await updateDoc(corridaRef, {
-            tempoBruto,
-            tempoLiquido,
-            classificacaoGeral,
-            classificacaoFaixaEtaria,
-            data,
-            distancia,
-            local,
-            horario,
-            valor,
-        });
-        navigation.navigate('ListaCorridas'); // Navega para a tela ListaCorridas
-    };
+    
 
     const onDayPress = (day) => {
         // Ajuste a data para o fuso horário local
@@ -52,6 +32,39 @@ function AtualizacaoCorrida() {
         setShowCalendar(false);
     };
     
+    
+    const handleUpdate = async () => {
+        // Campos obrigatórios que precisam ser preenchidos
+        if (!data || !distancia || !local || !horario || !valor) {
+            Alert.alert("Erro", "Os campos Data, Distância, Local, Horário e Valor são obrigatórios!");
+            return;
+        }
+    
+        try {
+            const corridaRef = doc(database, "corridas", corrida.id);
+            await updateDoc(corridaRef, {
+                tempoBruto,
+                tempoLiquido,
+                classificacaoGeral,
+                classificacaoFaixaEtaria,
+                data,
+                distancia,
+                local,
+                horario,
+                valor,
+            });
+            
+            Alert.alert("Sucesso", "Corrida atualizada com sucesso!");
+        } catch (error) {
+            console.error("Erro ao atualizar a corrida: ", error);
+            Alert.alert("Erro", "Ocorreu um erro ao atualizar a corrida. Tente novamente.");
+        } finally {
+            navigation.navigate('ListaCorridas'); // Navega para a tela ListaCorridas
+        }
+    };
+    
+
+
 
     return (
         <View style={estilos.fundo}>

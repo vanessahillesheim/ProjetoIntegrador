@@ -49,7 +49,7 @@ function Calendario() {
       </View>
 
       <View style={[{ paddingHorizontal: 10, flex: 0.14 }]}>
-        <Text style={{color: '#0038a8', fontSize: 18, textAlign: 'center', padding: 20}}>Calendário de Corridas</Text>
+        <Text style={estilos.titulo}>Calendário de Corridas</Text>
       </View>
 
       <View style={estilos.corpoCadastro}>

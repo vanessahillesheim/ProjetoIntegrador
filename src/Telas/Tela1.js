@@ -66,7 +66,7 @@ return () =>estadoUsuario();
         setStatusError('firebase');
         setMensagemError('E-mail ou senha não confere.');
       } else {
-        nav.replace('DrawerNavigator'); // Se login ok, navega para o DrawerNavigator
+        nav.replace('Menu'); // Se login ok, navega para o DrawerNavigator
       }
     }
   }
