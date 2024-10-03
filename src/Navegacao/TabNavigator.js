@@ -4,9 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Menu from '../Telas/Menu';
 import ListaCorridas from '../Telas/ListaCorridas';
 import Calendario from '../Telas/Calendario';
-import DetalhesCorridas from '../Telas/DetalhesCorridas';
-import DiaNoite from '../Telas/DiaNoite';
-import AtualizacaoUsuario from '../Telas/AtualizacaoUsuario';
+import PerfilUsuario from '../Telas/PerfilUsuario';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,24 +34,25 @@ function TabNavigator() {
           headerShown: false
         }}
       />
+      
       <Tab.Screen
         name="Calendario"
         component={Calendario}
         options={{
-          tabBarIcon: () => <Icon name='info-circle' size={20} color={'#0038a8'} />,
+          tabBarIcon: () => <Icon name='calendar-check' size={20} color={'#0038a8'} />,
           headerShown: false
         }}
       />
-
-     
-       <Tab.Screen
-        name="Atualização Usuário"
-        component={AtualizacaoUsuario}
+   <Tab.Screen
+        name="PerfilUsuariio"
+        component={PerfilUsuario}
         options={{
-          tabBarIcon: () => <Icon name='sun' size={20} color={'#0038a8'} />,
+          tabBarIcon: () => <Icon name='user' size={20} color={'#0038a8'} />,
           headerShown: false
         }}
       />
+     
+     
     </Tab.Navigator>
   );
 }

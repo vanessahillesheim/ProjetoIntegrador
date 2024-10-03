@@ -6,7 +6,6 @@ import CadastroCorrida from '../Telas/CadastroCorrida';
 import ListaCorridas from '../Telas/ListaCorridas';
 import Calendario from '../Telas/Calendario';
 import Tela1 from '../Telas/Tela1';
-import AtualizacaoUsuario from '../Telas/AtualizacaoUsuario';
 
 
 
@@ -21,7 +20,7 @@ function DrawerNavigator() {
       <Drawer.Screen name="ListaCorridas" component={ListaCorridas} />
       <Drawer.Screen name="Calendario" component={Calendario} />
       <Drawer.Screen name="Login" component={Tela1} />
-      <Drawer.Screen name="AtualizacaoUsuario" component={AtualizacaoUsuario} />
+      
     </Drawer.Navigator>
   );
 }
