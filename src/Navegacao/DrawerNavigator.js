@@ -5,7 +5,7 @@ import TabNavigator from './TabNavigator'; // Certifique-se de que o caminho est
 import CadastroCorrida from '../Telas/CadastroCorrida';
 import ListaCorridas from '../Telas/ListaCorridas';
 import Calendario from '../Telas/Calendario';
-import Tela1 from '../Telas/Tela1';
+
 
 
 
@@ -15,11 +15,15 @@ function DrawerNavigator() {
   return (
     <Drawer.Navigator>
       {/* Adiciona o TabNavigator como uma tela do Drawer */}
-      <Drawer.Screen name="Menu" component={TabNavigator} />
-      <Drawer.Screen name="CadastroCorrida" component={CadastroCorrida} />
-      <Drawer.Screen name="ListaCorridas" component={ListaCorridas} />
-      <Drawer.Screen name="Calendario" component={Calendario} />
-      <Drawer.Screen name="Login" component={Tela1} />
+      <Drawer.Screen 
+      name="Menu" 
+      component={TabNavigator} 
+      initialParams={{ screen: 'Menu' }}/>
+     
+      <Drawer.Screen name="Calendario" 
+      component={TabNavigator} 
+      initialParams={{ screen: 'Calendario' }}/>
+      
       
     </Drawer.Navigator>
   );

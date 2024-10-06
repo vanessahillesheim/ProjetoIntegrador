@@ -5,6 +5,7 @@ import Menu from '../Telas/Menu';
 import ListaCorridas from '../Telas/ListaCorridas';
 import Calendario from '../Telas/Calendario';
 import PerfilUsuario from '../Telas/PerfilUsuario';
+import CadastroCorrida from '../Telas/CadastroCorrida';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,10 +28,18 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="ListaCorridas"
+        name="Todas Corridas"
         component={ListaCorridas}
         options={{
           tabBarIcon: () => <Icon name='list' size={20} color={'#0038a8'} />,
+          headerShown: false
+        }}
+      />
+      <Tab.Screen
+        name="Nova Corrida"
+        component={CadastroCorrida}
+        options={{
+          tabBarIcon: () => <Icon name='running' size={20} color={'#0038a8'} />,
           headerShown: false
         }}
       />
