@@ -1,13 +1,14 @@
 # RunTracking - Aplicativo do Corredor de Rua
 ![Run Tracking App](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/RunTraking.JPG)
 ![Menu](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/menu.PNG)
-![Nova Corrida](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/nova corrida.PNG)
+![Nova Corrida](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/nova_corrida.PNG)
 ![Corridas](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/corridas.PNG)
 ![Calendário](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/calendario.PNG)
 ![Evento](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/evento.PNG)
 ![Perfil](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/perfil.PNG)
 
-[![Assista ao vídeo](https://img.youtube.com/vi/F38zsjO55GI/0.jpg)](https://youtu.be/F38zsjO55GI)
+[![Assista ao vídeo de apresentação do aplicativo]
+(https://img.youtube.com/vi/F38zsjO55GI/0.jpg)](https://youtu.be/F38zsjO55GI)
 
 RunTracking é um aplicativo desenvolvido para ajudar corredores a gerenciar suas corridas, acompanhar seu progresso e manter um histórico detalhado de suas atividades. O aplicativo permite o cadastro de perfis de corredores e registro de corridas, fornecendo ao corredor o histórico das corridas já concluídas (informações sobre o evento, classificação, tempo do percurso) e também o acesso ao calendário para verificação das corridas futuras agendadas.
 
