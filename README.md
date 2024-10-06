@@ -75,7 +75,7 @@ Para instalar e rodar o RunTracking localmente, siga estas etapas:
 
 2. **Navegue para o Diretório do Projeto**:
    ```bash
-   cd RunTracking
+   cd ProjetoIntegrador
 
 3. **Instale as Dependências**:
 - Execute o seguinte comando para instalar todas as dependências listadas no arquivo package.json:
