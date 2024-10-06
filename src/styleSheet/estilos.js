@@ -21,7 +21,19 @@ const estilos = StyleSheet.create({
 
     fundoCabecalho: {
         width: "auto", height: 170,
+        position: 'relative',
     },
+
+    icone: {
+        borderRadius: 50, 
+        width: 50, 
+        height: 50, 
+        position: 'relative', // Faz com que o ícone seja posicionado absolutamente
+        top: 10,
+        left: 15
+    },
+
+
     logo: {
         width: 250,
         height: 250,
@@ -45,7 +57,7 @@ const estilos = StyleSheet.create({
 },
 
 entrada_texto4: {
-    height: 30, // Diminua a altura
+    height: 50, // Diminua a altura
     width: 270,
     marginHorizontal: 10,
     fontSize: 16,
