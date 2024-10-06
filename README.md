@@ -1,7 +1,7 @@
 # RunTracking - Aplicativo do Corredor de Rua
 ![Run Tracking App](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/RunTraking.JPG)
 ![Menu](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/menu.PNG)
-![Nova Corrida](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/novacorrida.PNG)
+![Nova Corrida](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/nova corrida.PNG)
 ![Corridas](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/corridas.PNG)
 ![Calendário](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/calendario.PNG)
 ![Evento](https://raw.githubusercontent.com/vanessahillesheim/ProjetoIntegrador/master/src/img/evento.PNG)
