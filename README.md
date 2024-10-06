@@ -68,46 +68,33 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para m
 
 Para instalar e rodar o RunTracking localmente, siga estas etapas:
 
-1. **Clone o Repositório**:
-   ```bash
-   git clone https://github.com/vanessahillesheim/ProjetoIntegrador.git
+# 1. Clone o Repositório:
+echo "Clonando o repositório RunTracking..."
+git clone https://github.com/vanessahillesheim/ProjetoIntegrador.git
 
+# 2. Navegue para o Diretório do Projeto:
+echo "Navegando para o diretório do projeto..."
+cd ProjetoIntegrador
 
-2. **Navegue para o Diretório do Projeto**:
-   ```bash
-   cd ProjetoIntegrador
+# 3. Copie o package.json para o diretório raiz, se necessário:
+if [ ! -f "package.json" ]; then
+  echo "Copiando o arquivo package.json para o diretório do projeto..."
+  cp caminho_do_repositorio/package.json .
+fi
 
-3. **Instale as Dependências**:
-- Execute o seguinte comando para instalar todas as dependências listadas no arquivo package.json:
-   ```bash
-   npm install
+# 4. Instale as dependências do projeto:
+echo "Instalando dependências..."
+npm install
 
-4. **Inicie o servidor e comece a desenvolver, executando o comando**:
-   ```bash
-   npm start
-
-
-## **Configuração do Firebase**
-
-Para configurar o Firebase em seu projeto, siga estas etapas:
-
-1. **Crie um Projeto no Firebase**:
-   - Acesse o [Console do Firebase](https://console.firebase.google.com/).
-   - Clique em **"Adicionar projeto"** e siga as instruções para criar um novo projeto Firebase.
-
-2. **Adicione um App ao Projeto**:
-   - No painel do Firebase, clique no ícone de **"Adicionar app"** para adicionar um aplicativo Android ou iOS.
-   - Siga as instruções fornecidas para registrar o seu aplicativo e obter as credenciais necessárias.
-
-3. **Configure o Firestore e Obtenha as Credenciais**:
-   - No console do Firebase, configure o Firestore se ainda não estiver configurado.
-   - Copie as credenciais do seu projeto.
+# 5. Inicie o servidor localmente:
+echo "Iniciando o servidor..."
+npm run web
 
 4. **Atualize o Arquivo de Configuração do Firebase**:
-   - Crie ou atualize o arquivo `src/config/firebaseconfig.js` com as suas credenciais do Firebase. O arquivo deve se parecer com o seguinte:
+   - Crie ou atualize o arquivo `src/database/firebaseconexao.js` com as suas credenciais do Firebase. O arquivo deve se parecer com o seguinte:
 
    ```javascript
-   // src/config/firebaseconfig.js
+   // src/database/firebaseconexao.js
    import { initializeApp } from "firebase/app";
    import { getFirestore } from "firebase/firestore";
 
