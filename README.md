@@ -70,7 +70,8 @@ Para instalar e rodar o RunTracking localmente, siga estas etapas:
 
 1. **Clone o Repositório**:
    ```bash
-   git clone https://github.com/vanessahillesheim/RunTracking
+   git clone https://github.com/vanessahillesheim/ProjetoIntegrador.git
+
 
 2. **Navegue para o Diretório do Projeto**:
    ```bash
