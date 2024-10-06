@@ -50,7 +50,7 @@ Após a instalação, você pode usar o aplicativo para:
 
 - **React Native**: Para desenvolvimento de aplicativos móveis.
 - **Node.js**: Para o backend e gerenciamento de pacotes.
-- **Firebase**: Para armazenamento de dados locais.
+- **Firebase**: Para autenticação do usuário e armazenamento de dados.
 
 ## **Contribuição**
 Contribuições são bem-vindas! Para contribuir com o projeto, por favor siga os seguintes passos:
