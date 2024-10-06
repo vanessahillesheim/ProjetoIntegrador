@@ -1,5 +1,8 @@
 # RunTracking - Aplicativo do Corredor de Rua
 
+[![Assista ao vídeo](https://github.com/vanessahillesheim/ProjetoIntegrador/raw/main/src/img/RunTraking.JPG)](https://drive.google.com/uc?id=1YpP8i9cIegKy2npzQI7s1L92NViW5iYO&export=download)
+
+
 RunTracking é um aplicativo desenvolvido para ajudar corredores a gerenciar suas corridas, acompanhar seu progresso e manter um histórico detalhado de suas atividades. O aplicativo permite o cadastro de perfis de corredores e registro de corridas, fornecendo ao corredor o histórico das corridas já concluídas (informações sobre o evento, classificação, tempo do percurso) e também o acesso ao calendário para verificação das corridas futuras agendadas.
 
 ## Índice
