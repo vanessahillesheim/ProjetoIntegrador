@@ -6,6 +6,8 @@ import CxTxTCorrida from "./CxTxTCorrida";
 import { useNavigation } from "@react-navigation/native";
 import { collection, addDoc } from "firebase/firestore";
 import database from "../database/firebaseconexao";
+import Cabecalho from "./Cabecalho";
+import { auth } from "../database/firebaseconexao";
 
 function CadastroCorrida() {
     const [nomeEvento, setNomeEvento] = useState("");
@@ -16,8 +18,8 @@ function CadastroCorrida() {
     const [valor, setValor] = useState("");
     const [showCalendar, setShowCalendar] = useState(false);
     const [error, setError] = useState(false); // Estado de erro
-    const nav = useNavigation();
-    const fundoCabecalho = require("../img/cabecalho.png");
+    const navigation = useNavigation();
+    
 
     const handleAddCorrida = async () => {
         // Verifica se todos os campos obrigatórios foram preenchidos
@@ -37,7 +39,7 @@ function CadastroCorrida() {
                 horario,
                 valor,
             });
-            nav.navigate('CadastroSucessoCorrida');
+            navigation.navigate('CadastroSucessoCorrida');
         } catch (e) {
             console.error("Erro ao adicionar documento: ", e);
         }
@@ -47,14 +49,20 @@ function CadastroCorrida() {
         setData(day.dateString);
         setShowCalendar(false);
     };
+    
+    function deslogar() {
+        auth.signOut();
+        navigation.replace('Tela1');
+    }
 
+    function irParaMenu() {
+        navigation.navigate('Menu');
+    }
     return (
         <View style={estilos.fundo}>
-            <View style={estilos.cabecalhoCadastro}>
-                <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
-            </View>
+           <Cabecalho navigation={navigation} logout={deslogar} irParaMenu={irParaMenu} />
             <View style={estilos.corpoCadastro}>
-                <Text style={estilos.titulo}>Cadastre a nova corrida:</Text>
+                <Text style={[estilos.titulo, { marginTop: 10 }]}>Cadastre a nova corrida:</Text>
 
                 <CxTxTCorrida 
                     pHol="Nome do evento:" 

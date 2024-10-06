@@ -2,35 +2,40 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, Modal, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { estilos } from "../styleSheet/estilos";
-import { collection, getDocs } from "firebase/firestore";
-import database from "../database/firebaseconexao"; // Importa a configuração do Firebase
-
-let fundoCabecalho = require("../img/cabecalho.png");
+import { collection, getDocs, onSnapshot } from "firebase/firestore"; // Importar onSnapshot
+import database from "../database/firebaseconexao";
+import { auth } from "../database/firebaseconexao";
+import Cabecalho from "./Cabecalho";
+import { useNavigation } from "@react-navigation/native"; 
 
 function Calendario() {
+
+  const navigation = useNavigation();
+
   const [corridas, setCorridas] = useState({});
   const [selectedCorrida, setSelectedCorrida] = useState({});
   const [showModal, setShowModal] = useState(false);
 
   // Função para buscar as corridas no Firestore
   useEffect(() => {
-    const fetchCorridas = async () => {
-      const querySnapshot = await getDocs(collection(database, "corridas"));
+    const unsubscribe = onSnapshot(collection(database, "corridas"), (querySnapshot) => {
       const corridaData = {};
       querySnapshot.forEach((doc) => {
-        const { data, nomeEvento, local, horario } = doc.data();
+        const { data, nomeEvento, local, horario, distancia } = doc.data();
         corridaData[data] = {
           selected: true,
-          selectedColor: "#84F85B", // Cor diferente para as datas com corridas agendadas
+          selectedColor: "#84F85B",
           nomeEvento,
           local,
-          horario
+          horario, 
+          distancia
         };
       });
       setCorridas(corridaData);
-    };
+    });
 
-    fetchCorridas();
+    // Limpa a assinatura quando o componente é desmontado
+    return () => unsubscribe();
   }, []);
 
   // Função para lidar com o clique em um dia do calendário
@@ -42,14 +47,20 @@ function Calendario() {
     }
   };
 
+  function deslogar() {
+    auth.signOut();
+    navigation.replace('Tela1');
+}
+
+function irParaMenu() {
+    navigation.navigate('Menu');
+}
   return (
     <View style={estilos.fundo}>
-      <View style={estilos.cabecalhoCadastro}>
-        <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
-      </View>
+      <Cabecalho navigation={navigation} logout={deslogar} irParaMenu={irParaMenu} />
 
-      <View style={[{ paddingHorizontal: 10, flex: 0.14 }]}>
-        <Text style={estilos.titulo}>Calendário de Corridas</Text>
+      <View>
+        <Text style={[estilos.titulo, {paddingTop: 60}]}>Calendário de Corridas</Text>
       </View>
 
       <View style={estilos.corpoCadastro}>
@@ -82,10 +93,11 @@ function Calendario() {
         >
           <View style={estilos.modalOverlay}>
             <View style={estilos.modalContent}>
-              <Text style={estilos.modalTitle}>Evento:</Text>
+              <Text style={estilos.modalTitle}></Text>
               <Text style={estilos.modalCorrida}>{selectedCorrida.nomeEvento}</Text>
-              <Text style={estilos.modalDetails}>Local: {selectedCorrida.local}</Text>
+              <Text style={estilos.modalDetails}>Largada: {selectedCorrida.local}</Text>
               <Text style={estilos.modalDetails}>Horário: {selectedCorrida.horario}</Text>
+              <Text style={estilos.modalDetails}>Distância (km): {selectedCorrida.distancia}</Text>
               <TouchableOpacity onPress={() => setShowModal(false)}>
                 <Text style={estilos.modalClose}>Fechar</Text>
               </TouchableOpacity>

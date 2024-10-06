@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react"; // Mantenha apenas esta importação
 import { View, Text, Image, TouchableHighlight, TouchableOpacity } from "react-native"; // Adicione TouchableOpacity aqui
 import { estilos } from "../styleSheet/estilos";
-import { useNavigation } from "@react-navigation/native";
 import { auth } from "../database/firebaseconexao";
-import Icon from 'react-native-vector-icons/Feather'; // Certifique-se de que o Icon está importado corretamente
+import Cabecalho from "./Cabecalho";
+import { useNavigation } from "@react-navigation/native"; // Importando para navegação
 
 function Menu() {
-    let fundoCabecalho = require("../img/cabecalho.png");
 
     const [usuario, setUsuario] = useState(null); // Estado para armazenar o usuário autenticado
 
@@ -26,14 +25,14 @@ function Menu() {
         nav.navigate('Calendario');
     }
     function novacorrida() {
-        nav.navigate('CadastroCorrida');
+        nav.navigate('Nova Corrida');
     }
 
     function listaCorridas() {
-        nav.navigate('ListaCorridas');
+        nav.navigate('Todas Corridas');
     }
 
-  
+
     function perfil() {
         nav.navigate('PerfilUsuario');
     }
@@ -45,19 +44,9 @@ function Menu() {
 
     return (
         <View style={estilos.fundo}>
-            <View style={estilos.cabecalho}>
-                <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
-                {/* Contêiner para o texto e o botão */}
-                <View style={{ position: 'absolute', right: 10, top: 10, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                    <Text style={{ color: 'white', marginRight: 50 }}>
-                        {usuario ? usuario.email : 'Usuário não logado'}
-                    </Text>
+            <Cabecalho logout={deslogar} />
 
-                    <TouchableOpacity style={estilos.cabecalhoBotoes} onPress={deslogar}> {/* Corrigido de logout para deslogar */}
-                        <Icon name={'log-out'} size={18} color={"#fff"} />
-                    </TouchableOpacity>
-                </View>
-            </View>
+            
             <View style={estilos.corpoMenu}>
                 <TouchableHighlight style={estilos.rodapeBotao}
                     onPress={() => novacorrida()}
@@ -71,7 +60,7 @@ function Menu() {
                     <Text style={{ color: 'white', fontWeight: "bold" }}>Todas Corridas</Text>
                 </TouchableHighlight>
 
-               
+
                 <TouchableHighlight style={estilos.rodapeBotao}
                     onPress={() => perfil()}
                 >

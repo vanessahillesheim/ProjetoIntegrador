@@ -4,8 +4,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import { estilos } from "../styleSheet/estilos";
 import { auth } from "../database/firebaseconexao";
 
-export default function Cabecalho({ logout }) {
+export default function Cabecalho({ navigation, logout }) { // Adicionando navigation aqui
     let fundoCabecalho = require("../img/cabecalho.png");
+    let icone = require("../img/icone.png");
     const [usuario, setUsuario] = useState(null); // Estado para armazenar o usuário autenticado
 
     useEffect(() => {
@@ -18,17 +19,37 @@ export default function Cabecalho({ logout }) {
         return () => unsubscribe();
     }, []);
 
+    function deslogar() {
+        auth.signOut();
+        navigation.navigate('Tela1'); 
+    }
+    
+    function irParaMenu() {
+        navigation.navigate('Menu'); // Navegação para a tela de Menu
+    }
+
+    
+
     return (
         <View style={estilos.cabecalho}>
             <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
-
-            {/* Contêiner para o texto e o botão */}
-            <View style={{ position: 'absolute', right: 10, top: 10, flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <View style={{ position: 'absolute', top: 10, left: 10, flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={irParaMenu}>
+                <Image style={{ width: 40, height: 40, borderRadius: 50, left: 10 }}name={'Menu'} source={icone} />
+                </TouchableOpacity>
+            </View>
+            <View style={{
+                position: 'absolute',
+                top: 20,
+                right: 10,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            }}>
                 <Text style={{ color: 'white', marginRight: 50 }}>
                     {usuario ? usuario.email : 'Usuário não logado'}
                 </Text>
-
-                <TouchableOpacity style={estilos.cabecalhoBotoes} onPress={logout}>
+                <TouchableOpacity style={estilos.cabecalhoBotoes} onPress={deslogar}>
                     <Icon name={'log-out'} size={18} color={"#fff"} />
                 </TouchableOpacity>
             </View>

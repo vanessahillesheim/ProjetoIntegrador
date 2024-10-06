@@ -1,62 +1,96 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableHighlight, Alert } from 'react-native';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import database, { auth } from '../database/firebaseconexao';
 import { estilos } from '../styleSheet/estilos';
 import { useNavigation } from '@react-navigation/native';
 import Cabecalho from './Cabecalho';
-import { onAuthStateChanged } from 'firebase/auth';
+import axios from 'axios'; // Importa axios para requisições HTTP
 
 function AtualizacaoUsuario() {
     const navigation = useNavigation();
-    const [nome, setNome] = useState('');
-    const [endereco, setEndereco] = useState({});
-    const [userId, setUserId] = useState(null); // ID do usuário logado
+    const [usuario, setUsuario] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [cep, setCep] = useState('');
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                setUserId(user.uid); // Armazena o ID do usuário autenticado
-                await carregarUsuario(user.uid); // Carrega os dados do usuário
+                console.log("Usuário autenticado: ", user);
+                await carregarUsuario(user.uid);
             } else {
-                navigation.replace('Tela1'); // Se não estiver autenticado, redireciona para login
+                navigation.navigate('Tela1'); // Se não estiver autenticado, redireciona para login
             }
         });
 
-        return () => unsubscribe();
+        return () => unsubscribeAuth();
     }, []);
+
+    useEffect(() => {
+        if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+            buscarEnderecoPorCEP(cep);
+        }
+    }, [cep]);
 
     const carregarUsuario = async (userId) => {
         try {
-            const usuarioRef = doc(database, "usuarios", userId);
-            const docSnap = await getDoc(usuarioRef);
+            const usuariosCollection = collection(database, "usuarios");
+            const q = query(usuariosCollection, where("uid", "==", userId));
+            const querySnapshot = await getDocs(q);
 
-            if (docSnap.exists()) {
-                const dados = docSnap.data();
-                setNome(dados.nome || '');
-                setEndereco(dados.endereco || {});
+            if (!querySnapshot.empty) {
+                const usuarioData = querySnapshot.docs[0].data();
+                setUsuario({ id: querySnapshot.docs[0].id, ...usuarioData });
             } else {
                 Alert.alert("Erro", "Usuário não encontrado.");
             }
         } catch (error) {
             console.error("Erro ao carregar dados do usuário: ", error.message);
             Alert.alert("Erro", "Não foi possível carregar os dados do usuário.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const buscarEnderecoPorCEP = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const { logradouro, bairro, localidade } = response.data;
+            if (logradouro) {
+                setUsuario(prevUsuario => ({
+                    ...prevUsuario,
+                    endereco: {
+                        ...prevUsuario.endereco,
+                        rua: logradouro,
+                        bairro: bairro,
+                        cidade: localidade,
+                        cep: cep
+                    }
+                }));
+                setCep(''); // Limpa o campo do CEP após a busca
+            } else {
+                Alert.alert('Erro', 'CEP não encontrado.');
+            }
+        } catch (error) {
+            console.error('Erro ao buscar o endereço: ', error);
+            Alert.alert('Erro', 'Erro ao buscar o endereço.');
         }
     };
 
     const handleUpdate = async () => {
         try {
-            if (!userId) return;
-            const usuarioRef = doc(database, "usuarios", userId);
-    
+            if (!usuario) return; // Se não há usuário, não faz nada
+
+            const usuarioRef = doc(database, "usuarios", usuario.id);
+
             // Atualizando os dados no Firestore
             await updateDoc(usuarioRef, {
-                nome: nome,
-                endereco: endereco,
+                nome: usuario.nome,
+                endereco: usuario.endereco,
             });
 
             Alert.alert("Sucesso", "Usuário atualizado com sucesso!");
-            navigation.navigate('ListaUsuario'); 
+            navigation.replace('PerfilUsuario'); // Navega de volta ao PerfilUsuario após a atualização
         } catch (error) {
             console.error("Erro ao atualizar usuário: ", error.message);
             Alert.alert("Erro", `Não foi possível atualizar o usuário. Erro: ${error.message}`);
@@ -68,45 +102,60 @@ function AtualizacaoUsuario() {
         navigation.replace('Tela1');
     }
 
+    function irParaMenu() {
+        navigation.navigate('Menu');
+    }
+
+    if (loading) {
+        return (
+            <View style={estilos.fundo}>
+                <Text>Carregando dados do usuário...</Text>
+            </View>
+        );
+    }
+
     return (
         <View style={estilos.fundo}>
-            <Cabecalho logout={deslogar} />
-            <View style={estilos.corpoMenu}>
-                <Text style={estilos.titulo}>Atualizar Usuário</Text>
+            <Cabecalho navigation={navigation} logout={deslogar} irParaMenu={irParaMenu} />
+            {usuario ? (
+                <View style={estilos.corpoMenu}>
+                    <Text style={estilos.titulo}>Atualizar Usuário</Text>
 
-                <TextInput
-                    style={estilos.entrada_texto4}
-                    placeholder="Nome"
-                    value={nome}
-                    onChangeText={setNome}
-                />
-              
-                <TextInput
-                    style={estilos.entrada_texto4}
-                    placeholder="Endereço (Rua)"
-                    value={endereco.rua || ''}
-                    onChangeText={rua => setEndereco({ ...endereco, rua })}
-                />
-                <TextInput
-                    style={estilos.entrada_texto4}
-                    placeholder="Bairro"
-                    value={endereco.bairro || ''}
-                    onChangeText={bairro => setEndereco({ ...endereco, bairro })}
-                />
-                <TextInput
-                    style={estilos.entrada_texto4}
-                    placeholder="Cidade"
-                    value={endereco.cidade || ''}
-                    onChangeText={cidade => setEndereco({ ...endereco, cidade })}
-                />
-                <TextInput
-                    style={estilos.entrada_texto4}
-                    placeholder="CEP"
-                    value={endereco.cep || ''}
-                    onChangeText={cep => setEndereco({ ...endereco, cep })}
-                    keyboardType="numeric"
-                />
-            </View>
+                    <TextInput
+                        style={estilos.entrada_texto4}
+                        placeholder="Nome"
+                        value={usuario.nome}
+                        onChangeText={nome => setUsuario({ ...usuario, nome })} // Atualiza o nome
+                    />
+                    <TextInput
+                        style={estilos.entrada_texto4}
+                        placeholder="CEP"
+                        value={cep}
+                        onChangeText={setCep} // Atualiza o CEP e aciona a busca automática
+                        keyboardType="numeric"
+                    />
+                    <TextInput
+                        style={estilos.entrada_texto4}
+                        placeholder="Endereço (Rua)"
+                        value={usuario.endereco?.rua || ''}
+                        onChangeText={rua => setUsuario({ ...usuario, endereco: { ...usuario.endereco, rua }})} // Atualiza o endereço
+                    />
+                    <TextInput
+                        style={estilos.entrada_texto4}
+                        placeholder="Bairro"
+                        value={usuario.endereco?.bairro || ''}
+                        onChangeText={bairro => setUsuario({ ...usuario, endereco: { ...usuario.endereco, bairro }})} // Atualiza o bairro
+                    />
+                    <TextInput
+                        style={estilos.entrada_texto4}
+                        placeholder="Cidade"
+                        value={usuario.endereco?.cidade || ''}
+                        onChangeText={cidade => setUsuario({ ...usuario, endereco: { ...usuario.endereco, cidade }})} // Atualiza a cidade
+                    />
+                </View>
+            ) : (
+                <Text>Nenhum usuário encontrado</Text>
+            )}
 
             <View style={estilos.rodapeCadastro}>
                 <TouchableHighlight style={[estilos.rodapeBotao, { marginTop: 20 }]} onPress={handleUpdate}>

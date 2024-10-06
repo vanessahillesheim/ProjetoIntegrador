@@ -230,29 +230,31 @@ function CadastroUsuario({ navigation }) {
                             height={25}
                         />
                     </View>
-                    
-                    <Pressable onPress={abrirGaleriaOuCamera} style={[estilos.cameraIcon, { height: 25, justifyContent: 'center', flexDirection: 'row' }]}>
-                        <Icon name="camera" size={20} color="#12B1F5" />
-                        <Text style={{ marginLeft: 5 }}>Adicionar Foto</Text>
-                    </Pressable>
+                    <View style={{justifyContent: 'space-between', marginTop: 5, flexDirection: 'row', marginHorizontal: 20 }}>
+                        <Pressable onPress={abrirGaleriaOuCamera} style={[estilos.cameraIcon, { height: 25, justifyContent: 'flex-end', flexDirection: 'row' }]}>
+                            <Icon name="camera" size={20} color="#12B1F5" />
+                            <Text > Adicionar Foto</Text>
+                        </Pressable>
 
-                    {dados.foto && (
-                        <Image source={{ uri: dados.foto }} style={{ width: 100, height: 100, marginTop: 10 }} />
-                    )}
+                        {dados.foto && (
+                            <Image source={{ uri: dados.foto }} style={{ width: 80, height: 80, narginRight: 20 }} />
+                        )}
+                    </View>
+                    </View>
+
+                </View>
+                <View style={estilos.rodapeCadastro}>
+                    <Alerta
+                        mensagem={mensagemError}
+                        error={statusError === 'firebase'}
+                        setError={setStatusError}
+                    />
+                    <TouchableHighlight style={estilos.rodapeBotao} onPress={realizarCadastro}>
+                        <Text style={{ color: 'white', fontWeight: "bold" }}>Cadastrar</Text>
+                    </TouchableHighlight>
                 </View>
             </View>
-            <View style={estilos.rodapeCadastro}>
-                <Alerta
-                    mensagem={mensagemError}
-                    error={statusError === 'firebase'}
-                    setError={setStatusError}
-                />
-                <TouchableHighlight style={estilos.rodapeBotao} onPress={realizarCadastro}>
-                    <Text style={{ color: 'white', fontWeight: "bold" }}>Cadastrar</Text>
-                </TouchableHighlight>
-            </View>
-        </View>
-    );
+            );
 }
 
-export default CadastroUsuario;
+            export default CadastroUsuario;

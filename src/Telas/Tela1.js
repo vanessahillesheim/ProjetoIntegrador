@@ -11,6 +11,8 @@ import { alteraDados } from "../utils/funcoesComum";
 
 function Tela1() {
   const nav = useNavigation(); // Hook de navegação
+  let icone = require("../img/icone.png");
+
   const [dados, setDados]  = useState ({
     email: '',
     senha: '',
@@ -74,6 +76,7 @@ return () =>estadoUsuario();
 
   let fundoCabecalho = require("../img/cabecalho.png");
   let logo = require("../img/logo.png");
+  
 
   // Função para navegar para a tela de Cadastro de Usuário
   function cadastrar() {
@@ -96,8 +99,13 @@ if(carregando){
   return (
     <View style={estilos.fundo}>
       <View style={estilos.cabecalho}>
+      
+     
         <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
       </View>
+      <View style={{ position: 'absolute', top: 10, left: 10, flexDirection: 'row', alignItems: 'center' }}>
+                <Image style={{ width: 40, height: 40, borderRadius: 50, left: 10 }} source={icone} />
+            </View>
 
       <View style={{ justifyContent: 'center', alignItems: 'center', flex: 0.3 }}>
         <Image style={estilos.logo} source={logo} />

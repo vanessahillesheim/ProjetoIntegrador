@@ -5,7 +5,10 @@ import { doc, updateDoc } from "firebase/firestore";
 import database from "../database/firebaseconexao"; 
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Calendar } from 'react-native-calendars';
-import moment from 'moment-timezone'; // Adicionando moment-timezone
+import moment from 'moment-timezone';
+
+import Cabecalho from "./Cabecalho";
+import { auth } from "../database/firebaseconexao";
 
 function AtualizacaoCorrida() {
     const route = useRoute();
@@ -24,14 +27,11 @@ function AtualizacaoCorrida() {
     const [valor, setValor] = useState(corrida.valor);
     const [showCalendar, setShowCalendar] = useState(false); 
     
-
     const onDayPress = (day) => {
-        // Ajuste a data para o fuso horário local
         const selectedDate = moment(day.dateString).tz(moment.tz.guess()).format('YYYY-MM-DD');
         setData(selectedDate);
         setShowCalendar(false);
     };
-    
     
     const handleUpdate = async () => {
         // Campos obrigatórios que precisam ser preenchidos
@@ -39,38 +39,44 @@ function AtualizacaoCorrida() {
             Alert.alert("Erro", "Os campos Data, Distância, Local, Horário e Valor são obrigatórios!");
             return;
         }
-    
+
         try {
             const corridaRef = doc(database, "corridas", corrida.id);
-            await updateDoc(corridaRef, {
-                tempoBruto,
-                tempoLiquido,
-                classificacaoGeral,
-                classificacaoFaixaEtaria,
-                data,
-                distancia,
-                local,
-                horario,
-                valor,
-            });
-            
+            const updatedFields = {
+                ...(tempoBruto && { tempoBruto }),
+                ...(tempoLiquido && { tempoLiquido }),
+                ...(classificacaoGeral && { classificacaoGeral }),
+                ...(classificacaoFaixaEtaria && { classificacaoFaixaEtaria }),
+                ...(data && { data }),
+                ...(distancia && { distancia }),
+                ...(local && { local }),
+                ...(horario && { horario }),
+                ...(valor && { valor }),
+            };
+
+            // Atualiza apenas os campos que não estão undefined
+            await updateDoc(corridaRef, updatedFields);
             Alert.alert("Sucesso", "Corrida atualizada com sucesso!");
         } catch (error) {
             console.error("Erro ao atualizar a corrida: ", error);
             Alert.alert("Erro", "Ocorreu um erro ao atualizar a corrida. Tente novamente.");
         } finally {
-            navigation.navigate('ListaCorridas'); // Navega para a tela ListaCorridas
+            navigation.replace('ListaCorridas'); // Navega para a tela ListaCorridas
         }
     };
+
+    function deslogar() {
+        auth.signOut();
+        navigation.replace('Tela1');
+    }
+
+    function irParaMenu() {
+        navigation.navigate('Menu');
+    }
     
-
-
-
     return (
         <View style={estilos.fundo}>
-            <View style={estilos.cabecalho}>
-                <Image style={estilos.fundoCabecalho} source={fundoCabecalho} />
-            </View>
+         <Cabecalho navigation={navigation} logout={deslogar} irParaMenu={irParaMenu} />
 
             <View style={estilos.corpoMenu}>
                 <Text style={estilos.titulo}>{corrida.nomeEvento}</Text> 

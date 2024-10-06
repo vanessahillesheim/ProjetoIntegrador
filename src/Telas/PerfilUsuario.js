@@ -50,15 +50,18 @@ function PerfilUsuario() {
             </View>
         );
     }
-
     function deslogar() {
         auth.signOut();
         navigation.replace('Tela1');
     }
 
+    function irParaMenu() {
+        navigation.navigate('Menu');
+    }
     return (
         <View style={estilos.fundo}>
-            <Cabecalho logout={deslogar} />
+           <Cabecalho navigation={navigation} logout={deslogar} irParaMenu={irParaMenu} />
+
             {usuario ? (
                 <View style={{ alignItems: 'center', paddingTop: 100, flex: 0.8 }}>
                     {usuario.foto && (

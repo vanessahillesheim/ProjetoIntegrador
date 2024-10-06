@@ -9,7 +9,7 @@ function CxTxTCorrida(props) {
 
     return (
         <TextInput
-            style={props.customStyle || (multiline ? estilos.entrada_texto2 : estilos.entrada_texto4)} // Aplica o estilo customizado ou o padrão
+            style={props.customStyle || (multiline ? estilos.entrada_texto : estilos.entrada_texto4)} // Aplica o estilo customizado ou o padrão
             placeholder={props.pHol}
             autoCapitalize={props.aCap}
             maxLength={parseInt(props.cMax)}
