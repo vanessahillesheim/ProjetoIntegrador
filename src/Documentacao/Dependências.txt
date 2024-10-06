@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/documentacao/Dependências.txt
 npm install @react-navigation/stack
 npm install @react-navigation/drawer
 npm install @react-navigation/bottom-tabs
