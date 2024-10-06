@@ -70,21 +70,21 @@ Para instalar e rodar o RunTracking localmente, siga estas etapas:
 
 # 1. Clone o Repositório:
 ```bash
-   git clone https://github.com/vanessahillesheim/ProjetoIntegrador.git
+git clone https://github.com/vanessahillesheim/ProjetoIntegrador.git
 
 # 2. Navegue para o Diretório do Projeto:
 ```bash
-   cd ProjetoIntegrador
+cd ProjetoIntegrador
 
 # 3. Copie o package.json para o diretório raiz, se necessário:
 if [ ! -f "package.json" ]; then
 ```bash
-   cp caminho_do_repositorio/package.json .
+cp caminho_do_repositorio/package.json .
 fi
 
 # 4. Instale as dependências do projeto:
 ```bash
-   npm install
+npm install
 
 # 5. Inicie o servidor localmente:
 ```bash
