@@ -69,25 +69,25 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para m
 Para instalar e rodar o RunTracking localmente, siga estas etapas:
 
 # 1. Clone o Repositório:
-echo "Clonando o repositório RunTracking..."
-git clone https://github.com/vanessahillesheim/ProjetoIntegrador.git
+```bash
+   git clone https://github.com/vanessahillesheim/ProjetoIntegrador.git
 
 # 2. Navegue para o Diretório do Projeto:
-echo "Navegando para o diretório do projeto..."
-cd ProjetoIntegrador
+```bash
+   cd ProjetoIntegrador
 
 # 3. Copie o package.json para o diretório raiz, se necessário:
 if [ ! -f "package.json" ]; then
-  echo "Copiando o arquivo package.json para o diretório do projeto..."
-  cp caminho_do_repositorio/package.json .
+```bash
+   cp caminho_do_repositorio/package.json .
 fi
 
 # 4. Instale as dependências do projeto:
-echo "Instalando dependências..."
-npm install
+```bash
+   npm install
 
 # 5. Inicie o servidor localmente:
-echo "Iniciando o servidor..."
+```bash
 npm run web
 
 4. **Atualize o Arquivo de Configuração do Firebase**:
